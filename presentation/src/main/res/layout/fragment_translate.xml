@@ -2,45 +2,107 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     android:orientation="vertical">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimary">
+    <include
+        android:id="@+id/header"
+        layout="@layout/layout_translation_header" />
 
-        <TextView
-            android:id="@+id/primary_text_view"
-            android:layout_width="wrap_content"
+    <RelativeLayout
+        android:id="@+id/input_layout"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_below="@+id/header"
+        android:layout_margin="@dimen/default_padding"
+        android:background="@drawable/border"
+        android:padding="5dp">
+
+        <EditText
+            android:id="@+id/text_edit_text"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/switch_view"
-            android:layout_toStartOf="@+id/switch_view"
-            android:text="English"
-            android:textColor="@color/toolbar_title"
-            android:textSize="@dimen/toolbar_title" />
+            android:layout_above="@+id/clear_image_button"
+            android:layout_alignParentTop="true"
+            android:background="@null"
+            android:focusableInTouchMode="true"
+            android:descendantFocusability="beforeDescendants"
+            android:gravity="top"
+            android:hint="Type text" />
 
         <ImageButton
-            android:id="@+id/switch_view"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_centerInParent="true"
-            android:adjustViewBounds="true"
-            android:background="@android:color/transparent"
-            android:padding="8sp"
-            android:scaleType="fitCenter"
-            android:src="@drawable/ic_switch_language" />
+            android:id="@id/clear_image_button"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignParentBottom="true"
+            android:background="@null"
+            android:src="@drawable/ic_delete" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/input_layout"
+        android:layout_alignStart="@+id/input_layout"
+        android:layout_below="@+id/input_layout"
+        android:layout_toLeftOf="@+id/favourite_button"
+        android:layout_toStartOf="@+id/favourite_button">
 
         <TextView
             android:id="@+id/translation_text_view"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toEndOf="@+id/switch_view"
-            android:layout_toRightOf="@+id/switch_view"
-            android:text="English"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:text="Translation"
             android:textColor="@color/toolbar_title"
-            android:textSize="@dimen/toolbar_title" />
+            android:textSize="18sp" />
+    </ScrollView>
 
-    </RelativeLayout>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/scroll_view"
+        android:layout_alignStart="@+id/scroll_view"
+        android:layout_below="@+id/scroll_view" />
+
+    <ImageButton
+        android:id="@+id/favourite_button"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignEnd="@id/input_layout"
+        android:layout_alignRight="@id/input_layout"
+        android:layout_below="@+id/input_layout"
+        android:layout_marginBottom="@dimen/default_padding"
+        android:adjustViewBounds="true"
+        android:background="@null"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_tab_fav" />
+
+    <ImageButton
+        android:id="@+id/share_button"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignEnd="@id/input_layout"
+        android:layout_alignRight="@id/input_layout"
+        android:layout_below="@+id/favourite_button"
+        android:layout_marginBottom="@dimen/default_padding"
+        android:adjustViewBounds="true"
+        android:background="@null"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_share" />
+
+    <ImageButton
+        android:id="@+id/fullscreen_button"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignEnd="@id/input_layout"
+        android:layout_alignRight="@id/input_layout"
+        android:layout_below="@+id/share_button"
+        android:adjustViewBounds="true"
+        android:background="@null"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_fullscreen" />
 </RelativeLayout>
