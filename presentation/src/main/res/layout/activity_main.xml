@@ -10,8 +10,15 @@
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/tab_layout"
+        android:layout_above="@+id/line_view"
         android:layout_alignParentTop="true" />
+
+    <View
+        android:id="@+id/line_view"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_above="@+id/tab_layout"
+        android:background="@color/background_button" />
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tab_layout"

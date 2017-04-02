@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item>
+        <shape
+            android:shape="rectangle">
+            <stroke android:width="1px" android:color="@color/background_button" />
+            <solid android:color="@color/background_button" />
+        </shape>
+    </item>
+
+    <item android:bottom="1px">
+        <shape
+            android:shape="rectangle">
+            <stroke android:width="1px" android:color="@android:color/white" />
+            <solid android:color="@android:color/white" />
+
+        </shape>
+    </item>
+</layer-list>

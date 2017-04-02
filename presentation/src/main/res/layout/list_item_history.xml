@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/border_bottom"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/default_padding"
+    android:paddingTop="@dimen/default_padding">
+
+    <ImageButton
+        android:id="@+id/favourite_button"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="@dimen/default_padding"
+        android:layout_marginRight="@dimen/default_padding"
+        android:src="@drawable/ic_tab_fav" />
+
+    <TextView
+        android:id="@+id/text_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/favourite_button"
+        android:layout_toLeftOf="@+id/language_text_view"
+        android:layout_toRightOf="@+id/favourite_button"
+        android:layout_toStartOf="@+id/language_text_view"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="data data data data datdatadatadata datdatadatadatadatdatadatadata"
+        android:textColor="@color/toolbar_title"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/translation_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_text_view"
+        android:layout_toEndOf="@+id/favourite_button"
+        android:layout_toLeftOf="@+id/language_text_view"
+        android:layout_toRightOf="@+id/favourite_button"
+        android:layout_toStartOf="@+id/language_text_view"
+        android:maxLines="1"
+        android:text="data data data data datdatadatadata datdatadatadatadatdatadatadata"
+        android:ellipsize="end"
+        android:textColor="@color/background_button"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/language_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="@dimen/default_padding"
+        android:layout_marginRight="@dimen/default_padding"
+        android:text="en-ru"
+        android:textAllCaps="true"
+        android:textColor="@color/background_button"
+        android:textSize="12sp" />
+</RelativeLayout>

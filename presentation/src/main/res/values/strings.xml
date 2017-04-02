@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">YandexTranslate</string>
     <string name="settings">Settings</string>
+    <string name="search_history">Search in history</string>
     <string-array name="history_tabs">
         <item>History</item>
         <item>Favourites</item>
