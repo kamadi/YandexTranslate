@@ -1,8 +1,8 @@
-package kz.kamadi.yandextranslate.domain.entity;
+package kz.kamadi.yandextranslate.data.entity;
 
 import java.util.List;
 
-public class DictionaryEntity {
+public class Dictionary {
 
     private List<Def> def;
 
@@ -75,7 +75,7 @@ public class DictionaryEntity {
         private List<Tr> tr;
         private String ts;
 
-        public Def(){
+        public Def() {
 
         }
 
