@@ -3,167 +3,214 @@ package kz.kamadi.yandextranslate.domain.entity;
 import java.util.List;
 
 public class DictionaryEntity {
-    private List<Def> def;
-    private List<Def> defs;
-    private List<Link> link;
 
-    public List<Link> getLink() {
-        return this.link;
-    }
-
-    public void setLink(List<Link> list) {
-        this.link = list;
-    }
+    private List<Def> def = null;
 
     public List<Def> getDef() {
-        return this.def;
+        return def;
     }
 
-    public void setDef(List<Def> list) {
-        this.def = list;
+    public void setDef(List<Def> def) {
+        this.def = def;
     }
 
-    public List<Def> getDefs() {
-        return this.defs;
-    }
+    public class Def {
 
-    public void setDefs(List<Def> list) {
-        this.defs = list;
-    }
-
-    public class Attribute {
         private String text;
 
-        public String getText() {
-            return this.text;
-        }
+        private String pos;
 
-        public void setText(String str) {
-            this.text = str;
-        }
-    }
-
-    public class TextItem {
-        protected Attribute gen;
-        protected Attribute pos;
-        protected String text;
-
-        public TextItem() {
-            this.pos = new Attribute();
-            this.gen = new Attribute();
-        }
-
-        public TextItem(TextItem textItem) {
-            this.pos = new Attribute();
-            this.gen = new Attribute();
-            this.text = textItem.getText();
-            this.pos = textItem.getPos();
-            this.gen = textItem.getGen();
-        }
-
-        public String getText() {
-            return this.text;
-        }
-
-        public void setText(String str) {
-            this.text = str;
-        }
-
-        public Attribute getPos() {
-            return this.pos;
-        }
-
-        public void setPos(Attribute attribute) {
-            this.pos = attribute;
-        }
-
-        public Attribute getGen() {
-            return this.gen;
-        }
-
-        public void setGen(Attribute attribute) {
-            this.gen = attribute;
-        }
-    }
-
-    public class Def extends TextItem {
-        private List<Tr> tr;
         private String ts;
 
-        public Def(TextItem textItem) {
-            super(textItem);
+        private List<Tr> tr = null;
+
+        public String getText() {
+            return text;
         }
 
-        public List<Tr> getTr() {
-            return this.tr;
+        public void setText(String text) {
+            this.text = text;
         }
 
-        public void setTr(List<Tr> list) {
-            this.tr = list;
+        public String getPos() {
+            return pos;
+        }
+
+        public void setPos(String pos) {
+            this.pos = pos;
         }
 
         public String getTs() {
-            return this.ts;
+            return ts;
         }
 
-        public void setTs(String str) {
-            this.ts = str;
+        public void setTs(String ts) {
+            this.ts = ts;
         }
+
+        public List<Tr> getTr() {
+            return tr;
+        }
+
+        public void setTr(List<Tr> tr) {
+            this.tr = tr;
+        }
+
     }
 
-    public class Link {
-        private String href;
-        private String name;
+    public class Tr {
 
-        public String getName() {
-            return this.name;
+        private String text;
+
+        private String pos;
+
+        private String gen;
+
+        private List<Syn> syn = null;
+
+        private List<Mean> mean = null;
+
+        private List<Ex> ex = null;
+
+        private String asp;
+
+        public String getText() {
+            return text;
         }
 
-        public void setName(String str) {
-            this.name = str;
+        public void setText(String text) {
+            this.text = text;
         }
 
-        public String getHref() {
-            return this.href;
+        public String getPos() {
+            return pos;
         }
 
-        public void setHref(String str) {
-            this.href = str;
+        public void setPos(String pos) {
+            this.pos = pos;
         }
+
+        public String getGen() {
+            return gen;
+        }
+
+        public void setGen(String gen) {
+            this.gen = gen;
+        }
+
+        public List<Syn> getSyn() {
+            return syn;
+        }
+
+        public void setSyn(List<Syn> syn) {
+            this.syn = syn;
+        }
+
+        public List<Mean> getMean() {
+            return mean;
+        }
+
+        public void setMean(List<Mean> mean) {
+            this.mean = mean;
+        }
+
+        public List<Ex> getEx() {
+            return ex;
+        }
+
+        public void setEx(List<Ex> ex) {
+            this.ex = ex;
+        }
+
+        public String getAsp() {
+            return asp;
+        }
+
+        public void setAsp(String asp) {
+            this.asp = asp;
+        }
+
     }
 
-    public class Tr extends TextItem {
-        private List<Def> ex;
-        private List<TextItem> mean;
-        private List<TextItem> syn;
+    public class Syn {
 
-        public Tr(TextItem textItem) {
-            super(textItem);
+        private String text;
+
+        private String pos;
+
+        private String gen;
+
+        private String asp;
+
+        public String getText() {
+            return text;
         }
 
-        public List<TextItem> getSyn() {
-            return this.syn;
+        public void setText(String text) {
+            this.text = text;
         }
 
-        public void setSyn(List<TextItem> list) {
-            this.syn = list;
+        public String getPos() {
+            return pos;
         }
 
-        public List<TextItem> getMean() {
-            return this.mean;
+        public void setPos(String pos) {
+            this.pos = pos;
         }
 
-        public void setMean(List<TextItem> list) {
-            this.mean = list;
+        public String getGen() {
+            return gen;
         }
 
-        public List<Def> getEx() {
-            return this.ex;
+        public void setGen(String gen) {
+            this.gen = gen;
         }
 
-        public void setEx(List<Def> list) {
-            this.ex = list;
+        public String getAsp() {
+            return asp;
         }
+
+        public void setAsp(String asp) {
+            this.asp = asp;
+        }
+
     }
 
+    public class Mean {
+
+        private String text;
+
+        public String getText() {
+            return text;
+        }
+
+        public void setText(String text) {
+            this.text = text;
+        }
+
+    }
+
+    public class Ex {
+
+        private String text;
+
+        private List<Tr> tr = null;
+
+        public String getText() {
+            return text;
+        }
+
+        public void setText(String text) {
+            this.text = text;
+        }
+
+        public List<Tr> getTr() {
+            return tr;
+        }
+
+        public void setTr(List<Tr> tr) {
+            this.tr = tr;
+        }
+
+    }
 }
