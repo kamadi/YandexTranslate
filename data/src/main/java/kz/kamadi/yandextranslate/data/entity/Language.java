@@ -1,13 +1,14 @@
-package kz.kamadi.yandextranslate.domain.entity;
+package kz.kamadi.yandextranslate.data.entity;
 
 
-public class LanguageEntity {
-    private String name;
+public class Language {
+
     private String code;
+    private String name;
 
-    public LanguageEntity(String name, String code) {
-        this.name = name;
+    public Language(String name, String code) {
         this.code = code;
+        this.name = name;
     }
 
     public String getCode() {

@@ -1,18 +1,11 @@
-package kz.kamadi.yandextranslate.domain.entity;
+package kz.kamadi.yandextranslate.data.entity;
 
 import java.util.List;
 
-public class TranslateEntity {
+public class Translate {
+
     private List<String> text;
     private String lang;
-
-    public String getLang() {
-        return lang;
-    }
-
-    public void setLang(String lang) {
-        this.lang = lang;
-    }
 
     public List<String> getText() {
         return text;
@@ -20,5 +13,13 @@ public class TranslateEntity {
 
     public void setText(List<String> text) {
         this.text = text;
+    }
+
+    public String getLang() {
+        return lang;
+    }
+
+    public void setLang(String lang) {
+        this.lang = lang;
     }
 }

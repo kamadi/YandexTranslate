@@ -6,7 +6,10 @@ public class TranslationEntity {
     private HistoryEntity historyEntity;
 
 
-    public TranslationEntity(TranslateEntity translateEntity,DictionaryEntity dictionaryEntity) {
+    public TranslationEntity() {
+    }
+
+    public TranslationEntity(TranslateEntity translateEntity, DictionaryEntity dictionaryEntity) {
         this.translateEntity = translateEntity;
         this.dictionaryEntity = dictionaryEntity;
     }
