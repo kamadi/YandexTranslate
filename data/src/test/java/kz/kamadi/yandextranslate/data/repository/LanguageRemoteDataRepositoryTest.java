@@ -1,6 +1,7 @@
 package kz.kamadi.yandextranslate.data.repository;
 
 import org.apache.commons.io.FileUtils;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -28,6 +29,11 @@ public class LanguageRemoteDataRepositoryTest {
         mockWebServer.start();
         languageRemoteDataRepository = new LanguageRemoteDataRepository(RetrofitUtil.create(mockWebServer, TranslateApi.class,true));
         testObserver = new TestObserver<>();
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        mockWebServer.shutdown();
     }
 
     @Test

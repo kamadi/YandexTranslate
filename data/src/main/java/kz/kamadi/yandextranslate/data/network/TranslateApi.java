@@ -13,7 +13,7 @@ public interface TranslateApi {
 
     @FormUrlEncoded
     @POST("/api/v1.5/tr.json/translate")
-    Observable<Translate> translate(@Query("lang") String lang, @Field("text") String text);
+    Observable<Translate> translate(@Field("text") String text,@Query("lang") String lang);
 
     @GET("/api/v1.5/tr.json/getLangs")
     Observable<LanguageResponse> getLanguages(@Query("ui") String ru);
