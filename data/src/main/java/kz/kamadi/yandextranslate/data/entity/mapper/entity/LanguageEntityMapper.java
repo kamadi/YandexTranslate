@@ -28,6 +28,7 @@ public class LanguageEntityMapper {
             for (Language language : languages) {
                 entities.add(transform(language));
             }
+            return entities;
         }
         return null;
     }

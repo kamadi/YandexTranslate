@@ -60,6 +60,8 @@ public class LanguageLocalDataRepositoryTest {
 
         languageLocalDataRepository.getLanguages().subscribe(testObserver);
 
+        testObserver.awaitTerminalEvent();
+
         List<LanguageEntity> entities = (List<LanguageEntity>) ((List<Object>) testObserver.getEvents().get(0)).get(0);
 
         assertEquals(entities.size(), fakeLanguages.size());
