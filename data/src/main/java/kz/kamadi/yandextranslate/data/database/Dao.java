@@ -75,6 +75,10 @@ public abstract class Dao {
         return DatabaseUtils.longForQuery(mDb, String.format("SELECT COUNT(*) FROM %s WHERE %s=? LIMIT 1", table_name, columnName), new String[]{String.valueOf(value)}) > 0;
     }
 
+    protected boolean exists(String table_name, String columnName, String value) {
+        return DatabaseUtils.longForQuery(mDb, String.format("SELECT COUNT(*) FROM %s WHERE %s=? LIMIT 1", table_name, columnName), new String[]{value}) > 0;
+    }
+
     protected boolean exists(String table_name, String columnName1, String value1, String columnName2, String value2) {
         return DatabaseUtils.longForQuery(mDb, String.format("SELECT COUNT(*) FROM %s WHERE %s=? AND %s=? LIMIT 1", table_name, columnName1, columnName2), new String[]{value1, value2}) > 0;
     }

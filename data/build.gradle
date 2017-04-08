@@ -11,7 +11,7 @@ android {
         targetSdkVersion rootProject.ext.androidTargetSdkVersion
         versionCode rootProject.ext.appVersionCode
         versionName rootProject.ext.appVersionName
-        testInstrumentationRunner 'android.test.InstrumentationTestRunner'
+        testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
     }
     buildTypes {
         release {
@@ -55,4 +55,9 @@ dependencies {
     testCompile dataTestDependencies.mockito
     testCompile dataTestDependencies.mockWebServer
     testCompile dataTestDependencies.commonsIO
+
+    androidTestCompile dataTestDependencies.androidAnnotations
+    androidTestCompile dataTestDependencies.androidTestRunner
+    androidTestCompile dataTestDependencies.androidTestRules
+
 }

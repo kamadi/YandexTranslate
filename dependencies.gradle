@@ -9,29 +9,41 @@ ext {
     appVersionCode = 1
     appVersionName = '1.0'
     androidBuildToolsVersion = '25.0.2'
-    androidMinSdkVersion = 16
+    androidMinSdkVersion = 15
     androidTargetSdkVersion = 25
     androidCompileSdkVersion = 25
     androidSupportVersion = '25.3.1'
+    playServicesVersion = "10.2.1"
 
     //Libraries
     daggerVersion = '2.8'
     butterKnifeVersion = '8.5.1'
-    rxJavaVersion = '2.0.2'
+    rxJavaVersion = '2.0.8'
     rxAndroidVersion = '2.0.1'
     javaxAnnotationVersion = '1.0'
     javaxInjectVersion = '1'
     retrofitVersion = '2.1.0'
     retrofitRxJava2AdapterVersion = '1.0.0'
+    gsonVersion = '2.7'
+    jsoupVersion = '1.9.2'
+    facebookVersion = "4,5"
+    vkVersion = "1.6.5"
+    calligraphyVersion = "2.2.0"
+    materialColorsVersion = "3.0.0"
+    materialIconsVersion = "1.1.1"
+    searchViewVersion = "4.0"
+    imageLoaderVersion = "1.9.5"
+    roundImageVersion = "2.2.1"
 
     //Testing
     jUnitVersion = '4.10'
-    mockitoVersion = '1.9.5'//'2.0.43-beta', wait for dexmaker
+    mockitoVersion = '2.7.21'
     dexmakerVersion = '1.4'
     mockWebServerVersion = '3.2.0'
     commonsIOVersion = '2.4'
     jetAnnotationVersion = '15.0'
     espressoVersion = '2.2.2'
+    androiRunnerVersion = '0.5'
 
     domainDependencies = [
             retrofit:           "com.squareup.retrofit2:retrofit:${retrofitVersion}",
@@ -59,7 +71,10 @@ ext {
             junit:              "junit:junit:${jUnitVersion}",
             mockito:            "org.mockito:mockito-core:${mockitoVersion}",
             mockWebServer:      "com.squareup.okhttp3:mockwebserver:${mockWebServerVersion}",
-            commonsIO:          "commons-io:commons-io:${commonsIOVersion}"
+            commonsIO:          "commons-io:commons-io:${commonsIOVersion}",
+            androidAnnotations: "com.android.support:support-annotations:${androidSupportVersion}",
+            androidTestRunner:  "com.android.support.test:runner:${androiRunnerVersion}",
+            androidTestRules:   "com.android.support.test:rules:${androiRunnerVersion}"
     ]
 
     presentationDependencies = [
