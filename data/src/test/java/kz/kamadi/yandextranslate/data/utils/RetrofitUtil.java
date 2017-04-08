@@ -4,18 +4,21 @@ import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import okhttp3.mockwebserver.MockWebServer;
 import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class RetrofitUtil {
 
-    public static <T> T create(MockWebServer mockWebServer, final Class<T> service) {
-        return new Retrofit.Builder()
+    public static <T> T create(MockWebServer mockWebServer, final Class<T> service, boolean isConverterEnabled) {
+        Retrofit.Builder builder = new Retrofit.Builder()
                 .baseUrl(mockWebServer.url("/"))
-//                .addConverterFactory(GsonConverterFactory.create(new GsonBuilder()
-//                        .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-//                        .create()))
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .build()
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create());
+
+        if (isConverterEnabled) {
+            builder.addConverterFactory(GsonConverterFactory.create());
+        }
+
+        return builder.build()
                 .create(service);
     }
 }
