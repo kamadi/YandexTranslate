@@ -30,7 +30,7 @@ public class FavouriteDataRepository implements FavouriteRepository {
     }
 
     @Override
-    public Observable<Boolean> add(HistoryEntity entity) {
+    public Observable<Boolean> update(HistoryEntity entity) {
         return Observable.fromCallable(() -> historyDao.update(historyDataMapper.transform(entity)));
     }
 
