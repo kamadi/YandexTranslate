@@ -11,6 +11,7 @@ import org.junit.runner.RunWith;
 import java.util.ArrayList;
 import java.util.List;
 
+import kz.kamadi.yandextranslate.data.entity.Dictionary;
 import kz.kamadi.yandextranslate.data.entity.History;
 import kz.kamadi.yandextranslate.data.entity.Translate;
 import kz.kamadi.yandextranslate.data.utils.TestDatabase;
@@ -24,12 +25,16 @@ import static kz.kamadi.yandextranslate.data.database.history.HistoryScheme.STAT
 @RunWith(AndroidJUnit4.class)
 public class HistoryDaoTest {
 
+    private final String dictionaryJson = "{\"def\":[{\"text\":\"travel\",\"pos\":\"noun\",\"ts\":\"trævl\",\"tr\":[{\"text\":\"путешествие\",\"pos\":\"noun\",\"gen\":\"ср\",\"syn\":[{\"text\":\"поездка\",\"pos\":\"noun\",\"gen\":\"ж\"}],\"mean\":[{\"text\":\"journey\"}],\"ex\":[{\"text\":\"timetravel\",\"tr\":[{\"text\":\"путешествиевовремени\"}]}]}]}]}";
     private HistoryDaoImpl dao;
+    private Dictionary fakeDictionary;
 
     @Before
     public void setUp() {
         TestDatabase testDatabase = new TestDatabase(getTargetContext());
         dao = new HistoryDaoImpl(testDatabase.getWritableDatabase(), new Gson());
+        fakeDictionary = new Gson().fromJson(dictionaryJson,Dictionary.class);
+        fakeDictionary.setContent(dictionaryJson);
     }
 
     @Test
@@ -75,8 +80,8 @@ public class HistoryDaoTest {
             dao.create(fakeHistory);
         }
 
+        assertEquals(dao.deleteAll(false), 10);
         assertEquals(dao.deleteAll(true), 5);
-        assertEquals(dao.deleteAll(false), 5);
     }
 
 
@@ -192,7 +197,8 @@ public class HistoryDaoTest {
         }
 
         History fakeHistory = getHistory();
-        fakeHistory.setStatus(STATUS_DELETED);
+        fakeHistory.setText("text");
+        fakeHistory.setFavourite(false);
         dao.create(fakeHistory);
 
         List<History> histories = dao.search("text", true);
@@ -230,6 +236,7 @@ public class HistoryDaoTest {
         fakeHistory.setStatus(STATUS_ACTIVE);
         fakeHistory.setFavourite(true);
         fakeHistory.setTranslate(new Translate("test"));
+        fakeHistory.setDictionary(fakeDictionary);
         fakeHistory.setText("test");
         fakeHistory.setLanguage("en-ru");
         return fakeHistory;

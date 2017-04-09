@@ -123,8 +123,11 @@ public class HistoryDaoImpl extends Dao implements HistoryDao {
 
         List<History> histories = new ArrayList<>();
 
-        cursor = query(TABLE_NAME, null, COLUMN_FAVOURITE + "=?", new String[]{String.valueOf(isFavourite ? 1 : 0)}, null, offset + "," + limit);
-
+        if (isFavourite) {
+            cursor = query(TABLE_NAME, null, COLUMN_FAVOURITE + "=" + COLUMN_FAVOURITE, null, null, offset + "," + limit);
+        } else {
+            cursor = query(TABLE_NAME, null, COLUMN_STATUS + "=" + STATUS_ACTIVE, null, null, offset + "," + limit);
+        }
         if (cursor != null) {
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
@@ -147,7 +150,7 @@ public class HistoryDaoImpl extends Dao implements HistoryDao {
 
         sql += "(" + COLUMN_DICTIONARY + " LIKE '%" + text + "%' OR " + COLUMN_TEXT + " LIKE '%" + text + "%' OR " + COLUMN_TRANSLATION + " LIKE '%" + text + "%' )";
 
-        sql += " AND " + COLUMN_FAVOURITE + "=" + String.valueOf(isFavourite ? 1 : 0);
+        sql += " AND " + COLUMN_FAVOURITE + "=" + String.valueOf(isFavourite ? FAVOURITE : NO_FAVOURITE);
 
         if (!isFavourite) {
             sql += " AND " + COLUMN_STATUS + "=" + STATUS_ACTIVE;
@@ -178,7 +181,7 @@ public class HistoryDaoImpl extends Dao implements HistoryDao {
         if (history.getDictionary() != null) {
             contentValues.put(COLUMN_DICTIONARY, history.getDictionary().getContent());
         }
-        contentValues.put(COLUMN_FAVOURITE, history.isFavourite() ? 1 : 0);
+        contentValues.put(COLUMN_FAVOURITE, history.isFavourite() ? FAVOURITE : NO_FAVOURITE);
         contentValues.put(COLUMN_STATUS, history.getStatus());
         contentValues.put(COLUMN_LANGUAGE, history.getLanguage());
         return contentValues;
