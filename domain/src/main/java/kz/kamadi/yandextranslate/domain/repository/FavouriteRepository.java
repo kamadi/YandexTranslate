@@ -13,7 +13,7 @@ public interface FavouriteRepository {
 
     Observable<Boolean> delete(HistoryEntity entity);
 
-    Observable<Boolean> deleteAll();
+    Observable<Integer> deleteAll();
 
     Observable<List<HistoryEntity>> search(String text);
 }

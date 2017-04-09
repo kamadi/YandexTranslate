@@ -31,7 +31,7 @@ public class HistoryDataRepository implements HistoryRepository {
 
     @Override
     public Observable<Boolean> delete(HistoryEntity entity) {
-        return Observable.fromCallable(() -> historyDao.delete(historyDataMapper.transform(entity), false));
+        return Observable.fromCallable(() -> historyDao.delete(historyDataMapper.transform(entity)));
     }
 
     @Override
@@ -40,7 +40,7 @@ public class HistoryDataRepository implements HistoryRepository {
     }
 
     @Override
-    public Observable<Boolean> deleteAll() {
+    public Observable<Integer> deleteAll() {
         return Observable.fromCallable(() -> historyDao.deleteAll(false));
     }
 

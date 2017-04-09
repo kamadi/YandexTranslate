@@ -36,11 +36,11 @@ public class FavouriteDataRepository implements FavouriteRepository {
 
     @Override
     public Observable<Boolean> delete(HistoryEntity entity) {
-        return Observable.fromCallable(() -> historyDao.delete(historyDataMapper.transform(entity), true));
+        return Observable.fromCallable(() -> historyDao.delete(historyDataMapper.transform(entity)));
     }
 
     @Override
-    public Observable<Boolean> deleteAll() {
+    public Observable<Integer> deleteAll() {
         return Observable.fromCallable(() -> historyDao.deleteAll(true));
     }
 

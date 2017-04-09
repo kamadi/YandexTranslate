@@ -8,7 +8,7 @@ import kz.kamadi.yandextranslate.domain.executor.ThreadExecutor;
 import kz.kamadi.yandextranslate.domain.interactor.UseCase;
 import kz.kamadi.yandextranslate.domain.repository.HistoryRepository;
 
-public class DeleteAllHistoryUseCase extends UseCase<Boolean> {
+public class DeleteAllHistoryUseCase extends UseCase<Integer> {
 
     private HistoryRepository repository;
 
@@ -19,7 +19,7 @@ public class DeleteAllHistoryUseCase extends UseCase<Boolean> {
     }
 
     @Override
-    public Observable<Boolean> buildUseCaseObservable() {
+    public Observable<Integer> buildUseCaseObservable() {
         return repository.deleteAll();
     }
 }
