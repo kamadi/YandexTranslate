@@ -8,7 +8,7 @@ import kz.kamadi.yandextranslate.domain.executor.ThreadExecutor;
 import kz.kamadi.yandextranslate.domain.interactor.UseCase;
 import kz.kamadi.yandextranslate.domain.repository.FavouriteRepository;
 
-public class DeleteAllFavouritesUseCase extends UseCase<Boolean> {
+public class DeleteAllFavouritesUseCase extends UseCase<Integer> {
 
     private FavouriteRepository repository;
 
@@ -19,7 +19,7 @@ public class DeleteAllFavouritesUseCase extends UseCase<Boolean> {
     }
 
     @Override
-    public Observable<Boolean> buildUseCaseObservable() {
+    public Observable<Integer> buildUseCaseObservable() {
         return repository.deleteAll();
     }
 }

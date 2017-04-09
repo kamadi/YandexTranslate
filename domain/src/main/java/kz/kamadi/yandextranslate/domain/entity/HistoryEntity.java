@@ -4,7 +4,7 @@ public class HistoryEntity {
     private int id;
     private boolean isFavourite;
     private int status;
-    private int language;
+    private String language;
     private TranslateEntity translateEntity;
     private DictionaryEntity dictionaryEntity;
 
@@ -32,11 +32,11 @@ public class HistoryEntity {
         this.status = status;
     }
 
-    public int getLanguage() {
+    public String getLanguage() {
         return language;
     }
 
-    public void setLanguage(int language) {
+    public void setLanguage(String language) {
         this.language = language;
     }
 

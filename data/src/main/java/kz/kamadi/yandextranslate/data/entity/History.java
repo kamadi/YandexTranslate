@@ -2,19 +2,28 @@ package kz.kamadi.yandextranslate.data.entity;
 
 public class History {
 
-    private int id;
+    private Integer id;
+    private String text;
     private boolean isFavourite;
     private int status;
-    private int language;
+    private String language;
     private Translate translate;
     private Dictionary dictionary;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
     }
 
     public boolean isFavourite() {
@@ -33,11 +42,11 @@ public class History {
         this.status = status;
     }
 
-    public int getLanguage() {
+    public String getLanguage() {
         return language;
     }
 
-    public void setLanguage(int language) {
+    public void setLanguage(String language) {
         this.language = language;
     }
 

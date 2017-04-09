@@ -13,7 +13,7 @@ public interface HistoryRepository {
 
     Observable<List<HistoryEntity>> getHistories(int offset, int limit);
 
-    Observable<Boolean> deleteAll();
+    Observable<Integer> deleteAll();
 
     Observable<List<HistoryEntity>> search(String text);
 }

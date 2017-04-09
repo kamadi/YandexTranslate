@@ -9,13 +9,13 @@ import kz.kamadi.yandextranslate.domain.executor.ThreadExecutor;
 import kz.kamadi.yandextranslate.domain.interactor.UseCase;
 import kz.kamadi.yandextranslate.domain.repository.FavouriteRepository;
 
-public class AddFavouriteUseCase extends UseCase<Boolean>{
+public class UpdateFavouriteUseCase extends UseCase<Boolean>{
 
     private FavouriteRepository repository;
     private HistoryEntity entity;
 
     @Inject
-    public AddFavouriteUseCase(ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread, FavouriteRepository repository) {
+    public UpdateFavouriteUseCase(ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread, FavouriteRepository repository) {
         super(threadExecutor, postExecutionThread);
         this.repository = repository;
     }
@@ -26,6 +26,6 @@ public class AddFavouriteUseCase extends UseCase<Boolean>{
 
     @Override
     public Observable<Boolean> buildUseCaseObservable() {
-        return repository.add(entity);
+        return repository.update(entity);
     }
 }

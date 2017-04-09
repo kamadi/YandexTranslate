@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import kz.kamadi.yandextranslate.data.database.history.HistoryScheme;
 import kz.kamadi.yandextranslate.data.database.language.LanguageScheme;
 
 public class TestDatabase extends SQLiteOpenHelper {
@@ -12,15 +13,23 @@ public class TestDatabase extends SQLiteOpenHelper {
 
     public TestDatabase(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        resetDatabase();
+    }
+
+    private void resetDatabase() {
+        SQLiteDatabase database = getWritableDatabase();
+        database.execSQL("DROP TABLE IF EXISTS " + LanguageScheme.TABLE_NAME);
+        database.execSQL("DROP TABLE IF EXISTS " + HistoryScheme.TABLE_NAME);
+        database.execSQL(LanguageScheme.LANGUAGE_TABLE_CREATE);
+        database.execSQL(HistoryScheme.HISTORY_TABLE_CREATE);
+        database.close();
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(LanguageScheme.SPORTS_TABLE_CREATE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
     }
 }

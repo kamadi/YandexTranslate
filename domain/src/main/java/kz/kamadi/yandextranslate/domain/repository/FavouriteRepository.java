@@ -9,11 +9,11 @@ public interface FavouriteRepository {
 
     Observable<List<HistoryEntity>> getFavourites(int offset, int limit);
 
-    Observable<Boolean> add(HistoryEntity entity);
+    Observable<Boolean> update(HistoryEntity entity);
 
     Observable<Boolean> delete(HistoryEntity entity);
 
-    Observable<Boolean> deleteAll();
+    Observable<Integer> deleteAll();
 
     Observable<List<HistoryEntity>> search(String text);
 }

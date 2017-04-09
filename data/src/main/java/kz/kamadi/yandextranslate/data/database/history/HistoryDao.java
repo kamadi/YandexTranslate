@@ -6,13 +6,13 @@ import kz.kamadi.yandextranslate.data.entity.History;
 
 public interface HistoryDao {
 
-    History create(History entity);
+    History create(History history);
 
-    boolean update(History entity);
+    boolean update(History history);
 
-    boolean delete(History history,boolean isFavourite);
+    boolean delete(History history);
 
-    boolean deleteAll(boolean isFavourite);
+    int deleteAll(boolean isFavourite);
 
     List<History> getHistories(int offset,int limit,boolean isFavourite);
 
