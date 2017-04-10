@@ -55,13 +55,13 @@
             android:layout_height="wrap_content"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
-            android:text="Translation"
+            android:text="Translation1"
             android:textColor="@color/toolbar_title"
             android:textSize="18sp" />
     </ScrollView>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view"
+    <kz.kamadi.yandextranslate.ui.widgets.DictionaryView
+        android:id="@+id/dictionary_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/scroll_view"
