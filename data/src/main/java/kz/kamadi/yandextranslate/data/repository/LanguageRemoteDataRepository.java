@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
+
 import io.reactivex.Observable;
 import kz.kamadi.yandextranslate.data.network.TranslateApi;
 import kz.kamadi.yandextranslate.domain.entity.LanguageEntity;
@@ -13,6 +15,7 @@ public class LanguageRemoteDataRepository implements LanguageRepository {
 
     private TranslateApi api;
 
+    @Inject
     public LanguageRemoteDataRepository(TranslateApi api) {
         this.api = api;
     }
