@@ -1,5 +1,7 @@
 package kz.kamadi.yandextranslate.domain.interactor.translate;
 
+import javax.inject.Inject;
+
 import io.reactivex.Observable;
 import io.reactivex.functions.BiFunction;
 import kz.kamadi.yandextranslate.domain.entity.DictionaryEntity;
@@ -18,7 +20,8 @@ public class GetTranslationUseCase extends UseCase<TranslationEntity> {
     private String text;
     private String lang;
 
-    protected GetTranslationUseCase(ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread, TranslateRepository translateRepository, DictionaryRepository dictionaryRepository) {
+    @Inject
+    public GetTranslationUseCase(ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread, TranslateRepository translateRepository, DictionaryRepository dictionaryRepository) {
         super(threadExecutor, postExecutionThread);
         this.translateRepository = translateRepository;
         this.dictionaryRepository = dictionaryRepository;

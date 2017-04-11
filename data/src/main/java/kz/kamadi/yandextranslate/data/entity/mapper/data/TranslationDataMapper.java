@@ -5,14 +5,14 @@ import javax.inject.Inject;
 import kz.kamadi.yandextranslate.data.entity.Translation;
 import kz.kamadi.yandextranslate.domain.entity.TranslationEntity;
 
-public class TranslationEntityMapper {
+public class TranslationDataMapper {
 
     private HistoryDataMapper historyDataMapper;
     private DictionaryDataMapper dictionaryDataMapper;
     private TranslateDataMapper translateDataMapper;
 
     @Inject
-    public TranslationEntityMapper(HistoryDataMapper historyDataMapper, DictionaryDataMapper dictionaryDataMapper, TranslateDataMapper translateDataMapper) {
+    public TranslationDataMapper(HistoryDataMapper historyDataMapper, DictionaryDataMapper dictionaryDataMapper, TranslateDataMapper translateDataMapper) {
         this.historyDataMapper = historyDataMapper;
         this.dictionaryDataMapper = dictionaryDataMapper;
         this.translateDataMapper = translateDataMapper;
