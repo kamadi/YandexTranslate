@@ -2,4 +2,13 @@
 <resources>
     <dimen name="toolbar_title">20sp</dimen>
     <dimen name="default_padding">16dp</dimen>
+    <dimen name="medium_padding">10dp</dimen>
+    <dimen name="small_padding">5dp</dimen>
+
+    <dimen name="dictionary_title">20.0sp</dimen>
+    <dimen name="dictionary_tr_ex">18.0sp</dimen>
+    <dimen name="dictionary_tr_ex_padding_left">32.0dip</dimen>
+    <dimen name="dictionary_tr_pos">13.0sp</dimen>
+    <dimen name="dictionary_tr_mean">18.0sp</dimen>
+    <dimen name="dictionary_tr_syn_number">14.0sp</dimen>
 </resources>
