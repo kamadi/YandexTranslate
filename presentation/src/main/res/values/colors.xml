@@ -8,9 +8,7 @@
     <color name="toolbar_title">#ff222222</color>
 
     <color name="dictionary_ex">#ff798aa8</color>
-    <color name="dictionary_ex_tr">#ff798aa8</color>
-    <color name="dictionary_link_ontap">#fff6f5f3</color>
-    <color name="dictionary_part_of_speech">#ffa37d92</color>
+    <color name="dictionary_tr_pos">#ffa37d92</color>
     <color name="dictionary_title">#ff333333</color>
     <color name="dictionary_tr_mean">#ff8d634d</color>
     <color name="dictionary_tr_syn">#ff4b7893</color>
