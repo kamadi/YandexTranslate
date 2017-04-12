@@ -24,6 +24,7 @@ public class HistoryDataMapper {
         if (history != null) {
             entity = new History();
             entity.setId(history.getId());
+            entity.setText(history.getText());
             entity.setLanguage(history.getLanguage());
             entity.setFavourite(history.isFavourite());
             entity.setStatus(history.getStatus());

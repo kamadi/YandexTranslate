@@ -43,15 +43,21 @@ public class BasePresenter implements Presenter {
     }
 
     public void showLoader() {
-        this.baseView.showLoading();
+        if (this.baseView != null) {
+            this.baseView.showLoading();
+        }
     }
 
     public void hideLoader() {
-        this.baseView.hideLoading();
+        if (this.baseView != null) {
+            this.baseView.hideLoading();
+        }
     }
 
     public void handleError(Throwable error) {
-        this.baseView.handleError(error);
+        if (this.baseView != null) {
+            this.baseView.handleError(error);
+        }
     }
 
     protected class BaseSubscriber<T> extends DisposableObserver<T> {

@@ -191,4 +191,8 @@ public class DictionaryView extends ScrollView {
     private float getDimen(int resourceId) {
         return getContext().getResources().getDimension(resourceId);
     }
+
+    public void clearView() {
+        linearLayout.removeAllViews();
+    }
 }

@@ -14,6 +14,7 @@ import kz.kamadi.yandextranslate.network.DictionaryInterceptor;
 import kz.kamadi.yandextranslate.network.TranslateInterceptor;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 @Module
 public class NetworkModule {
@@ -37,6 +38,7 @@ public class NetworkModule {
     TranslateApi provideTranslateApi(@Named("translate") OkHttpClient okHttpClient) {
         return new Retrofit.Builder()
                 .baseUrl(BuildConfig.TRANSLATE_API_URL)
+                .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(okHttpClient)
                 .build()
@@ -45,10 +47,11 @@ public class NetworkModule {
 
     @Provides
     @Singleton
-    DictionaryApi provideDictionaryApi(@Named("translate") OkHttpClient okHttpClient) {
+    DictionaryApi provideDictionaryApi(@Named("dictionary") OkHttpClient okHttpClient) {
         return new Retrofit.Builder()
                 .baseUrl(BuildConfig.DICTIONARY_API_URL)
                 .client(okHttpClient)
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build()
                 .create(DictionaryApi.class);
     }
