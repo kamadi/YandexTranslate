@@ -110,6 +110,7 @@ public class TranslateFragment extends BaseFragment implements TranslateView, Te
     public void hideLoading() {
         loadingLayout.setVisibility(View.GONE);
         resultLayout.setVisibility(View.VISIBLE);
+        isLoading = false;
     }
 
     @Override

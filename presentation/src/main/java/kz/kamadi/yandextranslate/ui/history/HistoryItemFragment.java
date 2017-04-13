@@ -5,18 +5,26 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 
+import java.util.List;
+
+import javax.inject.Inject;
+
 import butterknife.BindDrawable;
 import butterknife.BindView;
 import butterknife.OnClick;
 import kz.kamadi.yandextranslate.R;
+import kz.kamadi.yandextranslate.data.entity.History;
+import kz.kamadi.yandextranslate.ui.listener.OnPageVisibleListener;
+import kz.kamadi.yandextranslate.presenter.HistoryItemPresenter;
 import kz.kamadi.yandextranslate.ui.base.BaseFragment;
 
-public class HistoryItemFragment extends BaseFragment implements View.OnFocusChangeListener {
+public class HistoryItemFragment extends BaseFragment implements View.OnFocusChangeListener, HistoryItemView,OnPageVisibleListener,HistoryAdapter.OnHistoryUpdateListener {
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
     @BindView(R.id.search_edit_text)
@@ -29,8 +37,27 @@ public class HistoryItemFragment extends BaseFragment implements View.OnFocusCha
     Drawable borderBottom;
     @BindDrawable(R.drawable.border_bottom_yellow)
     Drawable borderBottomActive;
+    @Inject
+    HistoryItemPresenter presenter;
 
-    HistoryAdapter adapter;
+    private List<History> histories;
+    private HistoryAdapter adapter;
+    private int offset = 0;
+    private int limit = 25;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        getActivityComponent().inject(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        presenter.attachView(this);
+        Log.e("HistoryItemFragment","onResume");
+    }
+
 
     @Override
     protected int layoutId() {
@@ -41,9 +68,10 @@ public class HistoryItemFragment extends BaseFragment implements View.OnFocusCha
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         searchEditText.setOnFocusChangeListener(this);
-        adapter = new HistoryAdapter(getActivity());
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        adapter = new HistoryAdapter(context, this);
         recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
     }
 
     @Override
@@ -58,6 +86,49 @@ public class HistoryItemFragment extends BaseFragment implements View.OnFocusCha
 
     @OnClick(R.id.clear_image_button)
     public void onClearButtonClick() {
+
+    }
+
+    @Override
+    public void showLoading() {
+
+    }
+
+    @Override
+    public void hideLoading() {
+
+    }
+
+    @Override
+    public void showMessage(String message) {
+
+    }
+
+    @Override
+    public void handleError(Throwable error) {
+        error.printStackTrace();
+    }
+
+    @Override
+    public void showHistories(List<History> histories) {
+        if (this.histories == null) {
+            this.histories = histories;
+            adapter.setHistories(histories);
+        }else {
+            adapter.add(histories);
+        }
+    }
+
+    @Override
+    public void onPageVisible() {
+        presenter.attachView(this);
+        histories = null;
+        offset = 0;
+        presenter.getHistories(offset, limit, true);
+    }
+
+    @Override
+    public void onHistoryUpdate(History history) {
 
     }
 }

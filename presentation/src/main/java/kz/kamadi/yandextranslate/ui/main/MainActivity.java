@@ -3,18 +3,21 @@ package kz.kamadi.yandextranslate.ui.main;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
 import butterknife.BindColor;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import kz.kamadi.yandextranslate.R;
+import kz.kamadi.yandextranslate.ui.listener.OnPageVisibleListener;
 import kz.kamadi.yandextranslate.ui.history.HistoryFragment;
 import kz.kamadi.yandextranslate.ui.settings.SettingsFragment;
 import kz.kamadi.yandextranslate.ui.translate.TranslateFragment;
 import kz.kamadi.yandextranslate.ui.widgets.CustomViewPager;
 
-public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener {
+public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener, ViewPager.OnPageChangeListener {
 
     @BindView(R.id.tab_layout)
     TabLayout tabLayout;
@@ -35,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         ButterKnife.bind(this);
         mainTabPagerAdapter = new MainTabPagerAdapter(getSupportFragmentManager(), new TranslateFragment(), new HistoryFragment(), new SettingsFragment());
         customViewPager.setAdapter(mainTabPagerAdapter);
+        customViewPager.addOnPageChangeListener(this);
         tabLayout.setupWithViewPager(customViewPager);
         initTabs();
     }
@@ -73,5 +77,23 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
     @Override
     public void onBackPressed() {
 //        super.onBackPressed();
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        Fragment fragment = (Fragment) mainTabPagerAdapter.instantiateItem(customViewPager, position);
+        if (fragment instanceof OnPageVisibleListener){
+            ((OnPageVisibleListener)fragment).onPageVisible();
+        }
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
     }
 }
