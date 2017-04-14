@@ -20,7 +20,7 @@ public class UpdateHistoryUseCase extends UseCase<Boolean> {
         this.historyRepository = historyRepository;
     }
 
-    public void setHistoryEntity(HistoryEntity historyEntity) {
+    public void setParam(HistoryEntity historyEntity) {
         this.historyEntity = historyEntity;
     }
 

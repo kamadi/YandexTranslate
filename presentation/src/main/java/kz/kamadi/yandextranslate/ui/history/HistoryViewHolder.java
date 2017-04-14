@@ -2,6 +2,7 @@ package kz.kamadi.yandextranslate.ui.history;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import butterknife.BindView;
@@ -18,7 +19,8 @@ public class HistoryViewHolder extends RecyclerView.ViewHolder {
     TextView translationTextView;
     @BindView(R.id.language_text_view)
     TextView languageTextView;
-
+    @BindView(R.id.favourite_button)
+    ImageButton favouriteButton;
     private HistoryAdapter.OnHistoryUpdateListener onHistoryUpdateListener;
     private History history;
 
@@ -33,11 +35,21 @@ public class HistoryViewHolder extends RecyclerView.ViewHolder {
         textTextView.setText(history.getText());
         translationTextView.setText(history.getTranslate().getText().get(0));
         languageTextView.setText(history.getLanguage());
+        setFavourite();
+    }
+
+    private void setFavourite() {
+        if (history.isFavourite()) {
+            favouriteButton.setImageResource(R.drawable.favourite_selected);
+        } else {
+            favouriteButton.setImageResource(R.drawable.favourite_not_selected);
+        }
     }
 
     @OnClick(R.id.favourite_button)
     void onFavouriteButtonClick() {
         history.setFavourite(!history.isFavourite());
+        setFavourite();
         onHistoryUpdateListener.onHistoryUpdate(history);
     }
 }

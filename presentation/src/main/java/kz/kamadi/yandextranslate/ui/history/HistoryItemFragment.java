@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -136,11 +137,12 @@ public class HistoryItemFragment extends BaseFragment implements View.OnFocusCha
         presenter.attachView(this);
         histories = null;
         offset = 0;
+        adapter.setHistories(new ArrayList<>());
         presenter.getHistories(offset, limit, isFavourite);
     }
 
     @Override
     public void onHistoryUpdate(History history) {
-
+        presenter.update(history);
     }
 }

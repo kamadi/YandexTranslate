@@ -9,14 +9,15 @@
 
     <ImageButton
         android:id="@+id/favourite_button"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_centerInParent="true"
         android:layout_marginLeft="@dimen/default_padding"
         android:layout_marginRight="@dimen/default_padding"
-        android:src="@drawable/ic_tab_fav" />
+        android:background="@null"
+        android:src="@drawable/favourite_not_selected" />
 
     <TextView
         android:id="@+id/text_text_view"
