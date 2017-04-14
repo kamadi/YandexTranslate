@@ -30,6 +30,11 @@ public class HistoryDataRepository implements HistoryRepository {
     }
 
     @Override
+    public Observable<Boolean> update(HistoryEntity entity) {
+        return Observable.fromCallable(() -> historyDao.update(historyDataMapper.transform(entity)));
+    }
+
+    @Override
     public Observable<Boolean> delete(HistoryEntity entity) {
         return Observable.fromCallable(() -> historyDao.delete(historyDataMapper.transform(entity)));
     }

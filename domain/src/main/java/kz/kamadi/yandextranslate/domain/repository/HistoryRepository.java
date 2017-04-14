@@ -9,6 +9,8 @@ public interface HistoryRepository {
 
     Observable<HistoryEntity> create(HistoryEntity entity);
 
+    Observable<Boolean> update(HistoryEntity entity);
+
     Observable<Boolean> delete(HistoryEntity entity);
 
     Observable<List<HistoryEntity>> getHistories(int offset, int limit, boolean isFavourite);
