@@ -124,7 +124,7 @@ public class HistoryDaoImpl extends Dao implements HistoryDao {
         List<History> histories = new ArrayList<>();
 
         if (isFavourite) {
-            cursor = query(TABLE_NAME, null, COLUMN_FAVOURITE + "=" + COLUMN_FAVOURITE, null, COLUMN_ID + " DESC", offset + "," + limit);
+            cursor = query(TABLE_NAME, null, COLUMN_FAVOURITE + "=" + FAVOURITE, null, COLUMN_ID + " DESC", offset + "," + limit);
         } else {
             cursor = query(TABLE_NAME, null, COLUMN_STATUS + "=" + STATUS_ACTIVE, null, COLUMN_ID + " DESC", offset + "," + limit);
         }

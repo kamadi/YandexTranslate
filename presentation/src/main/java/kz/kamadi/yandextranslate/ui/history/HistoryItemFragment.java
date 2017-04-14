@@ -25,6 +25,7 @@ import kz.kamadi.yandextranslate.presenter.HistoryItemPresenter;
 import kz.kamadi.yandextranslate.ui.base.BaseFragment;
 
 public class HistoryItemFragment extends BaseFragment implements View.OnFocusChangeListener, HistoryItemView,OnPageVisibleListener,HistoryAdapter.OnHistoryUpdateListener {
+    private static final String FAVOURITE = "kz.kamadi.yandextranslate.ui.history.HistoryItemFragment.FAVOURITE";
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
     @BindView(R.id.search_edit_text)
@@ -44,11 +45,22 @@ public class HistoryItemFragment extends BaseFragment implements View.OnFocusCha
     private HistoryAdapter adapter;
     private int offset = 0;
     private int limit = 25;
+    private boolean isFavourite;
+
+    public static HistoryItemFragment newInstance(boolean isFavourite) {
+
+        Bundle args = new Bundle();
+        args.putBoolean(FAVOURITE,isFavourite);
+        HistoryItemFragment fragment = new HistoryItemFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getActivityComponent().inject(this);
+        isFavourite = getArguments().getBoolean(FAVOURITE);
     }
 
     @Override
@@ -124,7 +136,7 @@ public class HistoryItemFragment extends BaseFragment implements View.OnFocusCha
         presenter.attachView(this);
         histories = null;
         offset = 0;
-        presenter.getHistories(offset, limit, true);
+        presenter.getHistories(offset, limit, isFavourite);
     }
 
     @Override

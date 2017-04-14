@@ -11,16 +11,18 @@ import kz.kamadi.yandextranslate.R;
 
 public class HistoryTabPagerAdapter extends FragmentPagerAdapter {
     @BindArray(R.array.history_tabs)
-    String [] tabs;
+    String[] tabs;
 
     public HistoryTabPagerAdapter(Activity context, FragmentManager fm) {
         super(fm);
-        ButterKnife.bind(this,context);
+        ButterKnife.bind(this, context);
     }
 
     @Override
     public Fragment getItem(int position) {
-        return new HistoryItemFragment() ;
+        if (position == 0)
+            return HistoryItemFragment.newInstance(false);
+        return HistoryItemFragment.newInstance(true);
     }
 
     @Override
