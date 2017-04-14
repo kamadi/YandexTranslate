@@ -11,6 +11,7 @@ import kz.kamadi.yandextranslate.domain.repository.HistoryRepository;
 public class DeleteAllHistoryUseCase extends UseCase<Integer> {
 
     private HistoryRepository repository;
+    private boolean isFavourite;
 
     @Inject
     public DeleteAllHistoryUseCase(ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread, HistoryRepository repository) {
@@ -18,8 +19,12 @@ public class DeleteAllHistoryUseCase extends UseCase<Integer> {
         this.repository = repository;
     }
 
+    public void setParam(boolean isFavourite) {
+        this.isFavourite = isFavourite;
+    }
+
     @Override
     public Observable<Integer> buildUseCaseObservable() {
-        return repository.deleteAll();
+        return repository.deleteAll(isFavourite);
     }
 }

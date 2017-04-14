@@ -36,7 +36,7 @@ public class HistoryItemPresenter extends BasePresenter {
     }
 
     public void getHistories(int offset, int limit, boolean isFavourite) {
-        getHistoriesUseCase.setParams(offset, limit);
+        getHistoriesUseCase.setParams(offset, limit,isFavourite);
         getHistoriesUseCase.execute(new HistoriesGetSubscriber());
     }
 

@@ -11,9 +11,9 @@ public interface HistoryRepository {
 
     Observable<Boolean> delete(HistoryEntity entity);
 
-    Observable<List<HistoryEntity>> getHistories(int offset, int limit);
+    Observable<List<HistoryEntity>> getHistories(int offset, int limit, boolean isFavourite);
 
-    Observable<Integer> deleteAll();
+    Observable<Integer> deleteAll(boolean isFavourite);
 
-    Observable<List<HistoryEntity>> search(String text);
+    Observable<List<HistoryEntity>> search(String text, boolean isFavourite);
 }

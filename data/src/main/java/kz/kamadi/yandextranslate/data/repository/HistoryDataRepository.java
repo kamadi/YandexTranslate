@@ -35,17 +35,17 @@ public class HistoryDataRepository implements HistoryRepository {
     }
 
     @Override
-    public Observable<List<HistoryEntity>> getHistories(int offset, int limit) {
-        return Observable.fromCallable(() -> historyEntityMapper.transform(historyDao.getHistories(offset, limit, false)));
+    public Observable<List<HistoryEntity>> getHistories(int offset, int limit, boolean isFavourite) {
+        return Observable.fromCallable(() -> historyEntityMapper.transform(historyDao.getHistories(offset, limit, isFavourite)));
     }
 
     @Override
-    public Observable<Integer> deleteAll() {
-        return Observable.fromCallable(() -> historyDao.deleteAll(false));
+    public Observable<Integer> deleteAll(boolean isFavourite) {
+        return Observable.fromCallable(() -> historyDao.deleteAll(isFavourite));
     }
 
     @Override
-    public Observable<List<HistoryEntity>> search(String text) {
-        return Observable.fromCallable(() -> historyEntityMapper.transform(historyDao.search(text, false)));
+    public Observable<List<HistoryEntity>> search(String text, boolean isFavourite) {
+        return Observable.fromCallable(() -> historyEntityMapper.transform(historyDao.search(text, isFavourite)));
     }
 }

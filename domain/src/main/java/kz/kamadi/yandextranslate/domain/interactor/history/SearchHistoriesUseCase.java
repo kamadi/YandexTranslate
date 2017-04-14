@@ -16,6 +16,7 @@ public class SearchHistoriesUseCase extends UseCase<List<HistoryEntity>> {
 
     private HistoryRepository repository;
     private String text;
+    private boolean isFavourite;
 
     @Inject
     public SearchHistoriesUseCase(ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread, HistoryRepository repository) {
@@ -23,12 +24,13 @@ public class SearchHistoriesUseCase extends UseCase<List<HistoryEntity>> {
         this.repository = repository;
     }
 
-    public void setParam(String text) {
+    public void setParam(String text,boolean isFavourite) {
         this.text = text;
+        this.isFavourite = isFavourite;
     }
 
     @Override
     protected Observable<List<HistoryEntity>> buildUseCaseObservable() {
-        return repository.search(text);
+        return repository.search(text,isFavourite);
     }
 }

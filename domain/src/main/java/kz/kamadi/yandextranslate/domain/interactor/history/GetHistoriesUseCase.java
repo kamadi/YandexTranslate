@@ -16,6 +16,7 @@ public class GetHistoriesUseCase extends UseCase<List<HistoryEntity>> {
     private HistoryRepository repository;
     private int offset;
     private int limit;
+    private boolean isFavourite;
 
     @Inject
     public GetHistoriesUseCase(ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread, HistoryRepository repository) {
@@ -23,13 +24,14 @@ public class GetHistoriesUseCase extends UseCase<List<HistoryEntity>> {
         this.repository = repository;
     }
 
-    public void setParams(int offset, int limit) {
+    public void setParams(int offset, int limit,boolean isFavourite) {
         this.offset = offset;
         this.limit = limit;
+        this.isFavourite = isFavourite;
     }
 
     @Override
     protected Observable<List<HistoryEntity>> buildUseCaseObservable() {
-        return repository.getHistories(offset, limit);
+        return repository.getHistories(offset, limit,isFavourite);
     }
 }
