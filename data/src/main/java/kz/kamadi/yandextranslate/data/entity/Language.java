@@ -14,6 +14,11 @@ public class Language {
         this.name = name;
     }
 
+    public Language(Language language) {
+        this.name = language.getName();
+        this.code = language.getCode();
+    }
+
     public String getCode() {
         return code;
     }

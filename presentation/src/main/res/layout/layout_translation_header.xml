@@ -8,14 +8,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_toLeftOf="@+id/switch_view"
-        android:layout_toStartOf="@+id/switch_view"
+        android:layout_toLeftOf="@+id/language_switch_view"
+        android:layout_toStartOf="@+id/language_switch_view"
         android:text="English"
         android:textColor="@color/toolbar_title"
         android:textSize="@dimen/toolbar_title" />
 
     <ImageButton
-        android:id="@+id/switch_view"
+        android:id="@+id/language_switch_view"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_centerInParent="true"
@@ -30,8 +30,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_toEndOf="@+id/switch_view"
-        android:layout_toRightOf="@+id/switch_view"
+        android:layout_toEndOf="@+id/language_switch_view"
+        android:layout_toRightOf="@+id/language_switch_view"
         android:text="English"
         android:textColor="@color/toolbar_title"
         android:textSize="@dimen/toolbar_title" />

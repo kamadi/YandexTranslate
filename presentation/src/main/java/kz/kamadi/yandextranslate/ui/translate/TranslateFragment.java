@@ -23,7 +23,9 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import kz.kamadi.yandextranslate.R;
 import kz.kamadi.yandextranslate.data.entity.History;
+import kz.kamadi.yandextranslate.data.entity.Language;
 import kz.kamadi.yandextranslate.data.entity.Translation;
+import kz.kamadi.yandextranslate.data.manager.LanguageManager;
 import kz.kamadi.yandextranslate.presenter.TranslationPresenter;
 import kz.kamadi.yandextranslate.ui.base.BaseFragment;
 import kz.kamadi.yandextranslate.ui.widgets.DictionaryView;
@@ -46,15 +48,20 @@ public class TranslateFragment extends BaseFragment implements TranslateView, Te
     RelativeLayout inputLayout;
     @BindView(R.id.text_edit_text)
     TranslateEditText translateEditText;
+    @BindView(R.id.primary_lang_text_view)
+    TextView primaryLangTextView;
+    @BindView(R.id.translation_lang_text_view)
+    TextView translationLangTextView;
     @BindDrawable(R.drawable.border)
     Drawable border;
     @BindDrawable(R.drawable.border_yellow)
     Drawable borderActive;
     @Inject
     TranslationPresenter presenter;
-
+    @Inject
+    LanguageManager languageManager;
     Set<String> texts = new HashSet<>();
-
+    private Language primaryLanguage, translationLanguage;
     private boolean isLoading = false;
     private boolean isKeyboardClosed = true;
     private long lastEditTextTime = 0;
@@ -62,7 +69,7 @@ public class TranslateFragment extends BaseFragment implements TranslateView, Te
     private Handler handler = new Handler();
     private Runnable inputFinishChecker = () -> {
         if (System.currentTimeMillis() > (lastEditTextTime + DELAY - 500)) {
-            presenter.translate(translateEditText.getText().toString(), "en-ru");
+            presenter.translate(translateEditText.getText().toString(), primaryLanguage.getCode() + "-" + translationLanguage.getCode());
         }
     };
 
@@ -85,6 +92,15 @@ public class TranslateFragment extends BaseFragment implements TranslateView, Te
         translateEditText.setOnEditTextImeBackListener(this);
         translateEditText.addTextChangedListener(this);
         translateEditText.setOnTouchListener(this);
+        primaryLanguage = languageManager.getPrimaryLanguage();
+        translationLanguage = languageManager.getTranslationLanguage();
+        if (primaryLanguage != null) {
+            primaryLangTextView.setText(primaryLanguage.getName());
+        }
+
+        if (translationLanguage != null) {
+            translationLangTextView.setText(translationLanguage.getName());
+        }
     }
 
     @Override
@@ -178,6 +194,18 @@ public class TranslateFragment extends BaseFragment implements TranslateView, Te
         translateEditText.setCursorVisible(true);
         isKeyboardClosed = false;
         return false;
+    }
+
+    @OnClick(R.id.language_switch_view)
+    void onLanguageSwitchClick(){
+        String name = primaryLanguage.getName();
+        String code = primaryLanguage.getCode();
+        primaryLanguage = new Language(translationLanguage);
+        translationLanguage = new Language(name,code);
+        primaryLangTextView.setText(primaryLanguage.getName());
+        translationLangTextView.setText(translationLanguage.getName());
+        languageManager.savePrimaryLanguage(primaryLanguage);
+        languageManager.saveTranslationLanguage(translationLanguage);
     }
 
     private void openKeyboard() {
