@@ -8,7 +8,9 @@ import kz.kamadi.yandextranslate.data.entity.History;
 import kz.kamadi.yandextranslate.data.entity.mapper.data.HistoryDataMapper;
 import kz.kamadi.yandextranslate.data.entity.mapper.entity.HistoryEntityMapper;
 import kz.kamadi.yandextranslate.domain.entity.HistoryEntity;
+import kz.kamadi.yandextranslate.domain.interactor.history.DeleteHistoryUseCase;
 import kz.kamadi.yandextranslate.domain.interactor.history.GetHistoriesUseCase;
+import kz.kamadi.yandextranslate.domain.interactor.history.SearchHistoriesUseCase;
 import kz.kamadi.yandextranslate.domain.interactor.history.UpdateHistoryUseCase;
 import kz.kamadi.yandextranslate.ui.base.BaseView;
 import kz.kamadi.yandextranslate.ui.history.HistoryItemView;
@@ -18,14 +20,21 @@ public class HistoryItemPresenter extends BasePresenter {
     HistoryItemView view;
     private GetHistoriesUseCase getHistoriesUseCase;
     private UpdateHistoryUseCase updateHistoryUseCase;
+    private SearchHistoriesUseCase searchHistoriesUseCase;
+    private DeleteHistoryUseCase deleteHistoryUseCase;
     private HistoryDataMapper historyDataMapper;
     private HistoryEntityMapper historyEntityMapper;
 
     @Inject
-    public HistoryItemPresenter(GetHistoriesUseCase getHistoriesUseCase, UpdateHistoryUseCase updateHistoryUseCase, HistoryDataMapper historyDataMapper, HistoryEntityMapper historyEntityMapper) {
-        super(getHistoriesUseCase);
+    public HistoryItemPresenter(GetHistoriesUseCase getHistoriesUseCase,
+                                UpdateHistoryUseCase updateHistoryUseCase,
+                                SearchHistoriesUseCase searchHistoriesUseCase,
+                                DeleteHistoryUseCase deleteHistoryUseCase, HistoryDataMapper historyDataMapper, HistoryEntityMapper historyEntityMapper) {
+        super(getHistoriesUseCase,updateHistoryUseCase,getHistoriesUseCase,deleteHistoryUseCase);
         this.getHistoriesUseCase = getHistoriesUseCase;
         this.updateHistoryUseCase = updateHistoryUseCase;
+        this.searchHistoriesUseCase = searchHistoriesUseCase;
+        this.deleteHistoryUseCase = deleteHistoryUseCase;
         this.historyDataMapper = historyDataMapper;
         this.historyEntityMapper = historyEntityMapper;
     }
@@ -50,6 +59,11 @@ public class HistoryItemPresenter extends BasePresenter {
     public void update(History history) {
         updateHistoryUseCase.setParam(historyEntityMapper.transform(history));
         updateHistoryUseCase.execute(new HistoryUpdateSubscriber());
+    }
+
+    public void search(String text,boolean isFavourite){
+        searchHistoriesUseCase.setParam(text,isFavourite);
+        searchHistoriesUseCase.execute(new HistoriesGetSubscriber());
     }
 
     protected class HistoriesGetSubscriber extends BaseSubscriber<List<HistoryEntity>> {

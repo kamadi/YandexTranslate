@@ -150,10 +150,10 @@ public class HistoryDaoImpl extends Dao implements HistoryDao {
 
         sql += "(" + COLUMN_DICTIONARY + " LIKE '%" + text + "%' OR " + COLUMN_TEXT + " LIKE '%" + text + "%' OR " + COLUMN_TRANSLATION + " LIKE '%" + text + "%' )";
 
-        sql += " AND " + COLUMN_FAVOURITE + "=" + String.valueOf(isFavourite ? FAVOURITE : NO_FAVOURITE);
-
         if (!isFavourite) {
             sql += " AND " + COLUMN_STATUS + "=" + STATUS_ACTIVE;
+        }else {
+            sql += " AND " + COLUMN_FAVOURITE + "=" + FAVOURITE;
         }
 
         cursor = rawQuery(sql, null);
