@@ -1,5 +1,7 @@
 package kz.kamadi.yandextranslate.ui.main;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -11,8 +13,8 @@ import butterknife.BindColor;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import kz.kamadi.yandextranslate.R;
-import kz.kamadi.yandextranslate.ui.listener.OnPageVisibleListener;
 import kz.kamadi.yandextranslate.ui.history.HistoryFragment;
+import kz.kamadi.yandextranslate.ui.listener.OnPageVisibleListener;
 import kz.kamadi.yandextranslate.ui.settings.SettingsFragment;
 import kz.kamadi.yandextranslate.ui.translate.TranslateFragment;
 import kz.kamadi.yandextranslate.ui.widgets.CustomViewPager;
@@ -30,6 +32,10 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
     CustomViewPager customViewPager;
 
     private MainTabPagerAdapter mainTabPagerAdapter;
+
+    public static void start(Context context) {
+        context.startActivity(new Intent(context,MainActivity.class));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

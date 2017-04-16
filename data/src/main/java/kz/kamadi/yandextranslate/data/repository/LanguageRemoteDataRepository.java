@@ -1,6 +1,7 @@
 package kz.kamadi.yandextranslate.data.repository;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -27,7 +28,7 @@ public class LanguageRemoteDataRepository implements LanguageRepository {
             for (Map.Entry<String, String> entry : response.getLangs().entrySet()) {
                 entities.add(new LanguageEntity(entry.getValue(), entry.getKey()));
             }
-            entities.sort((o1, o2) -> o1.getCode().compareTo(o2.getCode()));
+            Collections.sort(entities,(o1, o2) -> o1.getCode().compareTo(o2.getCode()));
             return entities;
         });
     }

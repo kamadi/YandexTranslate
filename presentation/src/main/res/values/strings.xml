@@ -5,6 +5,7 @@
     <string name="search_favourites">Search in Favourites</string>
     <string name="deleting">Deleting</string>
     <string name="deleting_message">Are you sure you want to delete this entry?</string>
+    <string name="language_download_error">Не удалось скачать список языков.\n Проверьте подключения к интернету</string>
     <string-array name="history_tabs">
         <item>History</item>
         <item>Favourites</item>
