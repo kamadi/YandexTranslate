@@ -4,20 +4,39 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
+import android.widget.ImageButton;
+
+import java.util.Arrays;
+import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import kz.kamadi.yandextranslate.R;
+import kz.kamadi.yandextranslate.presenter.HistoryPresenter;
 import kz.kamadi.yandextranslate.ui.base.BaseFragment;
 import kz.kamadi.yandextranslate.ui.listener.OnPageVisibleListener;
 
-public class HistoryFragment extends BaseFragment implements ViewPager.OnPageChangeListener, OnPageVisibleListener {
+public class HistoryFragment extends BaseFragment implements HistoryView, ViewPager.OnPageChangeListener, OnPageVisibleListener, DeleteAllButtonVisibilityListener {
     @BindView(R.id.tab_layout)
     TabLayout tabLayout;
     @BindView(R.id.view_pager)
     ViewPager viewPager;
-
+    @BindView(R.id.delete_image_button)
+    ImageButton deleteImageButton;
+    @Inject
+    HistoryPresenter presenter;
     private HistoryTabPagerAdapter pagerAdapter;
+    private List<HistoryItemFragment> fragments;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        getActivityComponent().inject(this);
+    }
 
     @Override
     protected int layoutId() {
@@ -27,10 +46,29 @@ public class HistoryFragment extends BaseFragment implements ViewPager.OnPageCha
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        pagerAdapter = new HistoryTabPagerAdapter(getActivity(), getChildFragmentManager());
+        fragments = Arrays.asList(HistoryItemFragment.newInstance(false), HistoryItemFragment.newInstance(true));
+        pagerAdapter = new HistoryTabPagerAdapter(getActivity(), getChildFragmentManager(), fragments);
         viewPager.setAdapter(pagerAdapter);
         viewPager.addOnPageChangeListener(this);
         tabLayout.setupWithViewPager(viewPager);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        presenter.attachView(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        presenter.detachView();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        presenter.destroy();
     }
 
     @Override
@@ -61,5 +99,57 @@ public class HistoryFragment extends BaseFragment implements ViewPager.OnPageCha
     @Override
     public void onPageHidden() {
 
+    }
+
+    @OnClick(R.id.delete_image_button)
+    void onDeleteImageClick() {
+        boolean isFavourite = viewPager.getCurrentItem() == 1;
+        String title = getResources().getStringArray(R.array.history_tabs)[viewPager.getCurrentItem()];
+        String message = getResources().getStringArray(R.array.history_delete_message)[viewPager.getCurrentItem()];
+        new AlertDialog.Builder(context)
+                .setTitle(title)
+                .setMessage(message)
+                .setPositiveButton(android.R.string.yes, (dialog, which) -> {
+                    presenter.deleteAll(isFavourite);
+                })
+                .setNegativeButton(android.R.string.no, (dialog, which) -> {
+
+                })
+                .show();
+
+    }
+
+    @Override
+    public void showLoading() {
+
+    }
+
+    @Override
+    public void hideLoading() {
+
+    }
+
+    @Override
+    public void showMessage(String message) {
+
+    }
+
+    @Override
+    public void handleError(Throwable error) {
+
+    }
+
+    @Override
+    public void onHistoriesDeleted() {
+        fragments.get(viewPager.getCurrentItem()).onPageVisible();
+    }
+
+    @Override
+    public void setVisibility(boolean isVisible) {
+        if (isVisible) {
+            deleteImageButton.setVisibility(View.VISIBLE);
+        } else {
+            deleteImageButton.setVisibility(View.GONE);
+        }
     }
 }

@@ -10,7 +10,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -60,6 +59,9 @@ public class HistoryItemFragment extends BaseFragment implements HistoryItemView
     private boolean isFavourite;
     private Handler handler = new Handler();
     private boolean isKeyboardOpen = false;
+    private boolean isSearching = false;
+    private DeleteAllButtonVisibilityListener deleteAllButtonVisibilityListener;
+
 
     public static HistoryItemFragment newInstance(boolean isFavourite) {
         Bundle args = new Bundle();
@@ -91,6 +93,9 @@ public class HistoryItemFragment extends BaseFragment implements HistoryItemView
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        if (getParentFragment() instanceof DeleteAllButtonVisibilityListener){
+            deleteAllButtonVisibilityListener = (DeleteAllButtonVisibilityListener) getParentFragment();
+        }
         if (isFavourite){
             searchEditText.setHint(R.string.search_favourites);
         }else {
@@ -137,6 +142,9 @@ public class HistoryItemFragment extends BaseFragment implements HistoryItemView
 
     @Override
     public void showHistories(List<History> histories) {
+        if (!isSearching && deleteAllButtonVisibilityListener!=null){
+            deleteAllButtonVisibilityListener.setVisibility(!histories.isEmpty());
+        }
         if (this.histories == null) {
             this.histories = histories;
             adapter.setHistories(histories);
@@ -175,7 +183,6 @@ public class HistoryItemFragment extends BaseFragment implements HistoryItemView
 
     @Override
     public void onHistoryDelete(History history, int position) {
-        Log.e("onHistoryDelete",position+"");
         new AlertDialog.Builder(context)
                 .setTitle(R.string.deleting)
                 .setMessage(R.string.deleting_message)
@@ -225,11 +232,13 @@ public class HistoryItemFragment extends BaseFragment implements HistoryItemView
     @Override
     public void onImeBack() {
         changeSearchLayout(false);
+        isSearching = false;
     }
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         changeSearchLayout(true);
+        isSearching = true;
         return false;
     }
 

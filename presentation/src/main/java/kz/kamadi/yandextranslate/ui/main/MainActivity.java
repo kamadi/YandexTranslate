@@ -81,15 +81,15 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-        Fragment fragment = (Fragment) mainTabPagerAdapter.instantiateItem(customViewPager, position);
-        if (fragment instanceof OnPageVisibleListener){
-            ((OnPageVisibleListener)fragment).onPageVisible();
-        }
+
     }
 
     @Override
     public void onPageSelected(int position) {
-
+        Fragment fragment = (Fragment) mainTabPagerAdapter.instantiateItem(customViewPager, position);
+        if (fragment instanceof OnPageVisibleListener){
+            ((OnPageVisibleListener)fragment).onPageVisible();
+        }
     }
 
     @Override
