@@ -30,7 +30,7 @@ public class HistoryItemPresenter extends BasePresenter {
                                 UpdateHistoryUseCase updateHistoryUseCase,
                                 SearchHistoriesUseCase searchHistoriesUseCase,
                                 DeleteHistoryUseCase deleteHistoryUseCase, HistoryDataMapper historyDataMapper, HistoryEntityMapper historyEntityMapper) {
-        super(getHistoriesUseCase,updateHistoryUseCase,getHistoriesUseCase,deleteHistoryUseCase);
+        super(getHistoriesUseCase, updateHistoryUseCase, getHistoriesUseCase, deleteHistoryUseCase);
         this.getHistoriesUseCase = getHistoriesUseCase;
         this.updateHistoryUseCase = updateHistoryUseCase;
         this.searchHistoriesUseCase = searchHistoriesUseCase;
@@ -61,9 +61,20 @@ public class HistoryItemPresenter extends BasePresenter {
         updateHistoryUseCase.execute(new HistoryUpdateSubscriber());
     }
 
-    public void search(String text,boolean isFavourite){
-        searchHistoriesUseCase.setParam(text,isFavourite);
+    public void search(String text, boolean isFavourite) {
+        searchHistoriesUseCase.setParam(text, isFavourite);
         searchHistoriesUseCase.execute(new HistoriesGetSubscriber());
+    }
+
+    public void delete(History history, int position, boolean isFavourite) {
+        if (isFavourite) {
+            history.setFavourite(false);
+            updateHistoryUseCase.setParam(historyEntityMapper.transform(history));
+            updateHistoryUseCase.execute(new HistoryDeleteSubscriber(position));
+        } else {
+            deleteHistoryUseCase.setParam(historyEntityMapper.transform(history));
+            deleteHistoryUseCase.execute(new HistoryDeleteSubscriber(position));
+        }
     }
 
     protected class HistoriesGetSubscriber extends BaseSubscriber<List<HistoryEntity>> {
@@ -76,7 +87,6 @@ public class HistoryItemPresenter extends BasePresenter {
             }
         }
     }
-
 
     protected class HistoryUpdateSubscriber extends BaseSubscriber<Boolean> {
         @Override
@@ -92,6 +102,33 @@ public class HistoryItemPresenter extends BasePresenter {
         @Override
         public void onNext(Boolean aBoolean) {
 
+        }
+    }
+
+    protected class HistoryDeleteSubscriber extends BaseSubscriber<Boolean> {
+
+        private int position;
+
+        public HistoryDeleteSubscriber(int position) {
+            this.position = position;
+        }
+
+        @Override
+        public void onComplete() {
+
+        }
+
+        @Override
+        public void onError(Throwable e) {
+
+        }
+
+        @Override
+        public void onNext(Boolean aBoolean) {
+            if (view != null) {
+                if (aBoolean)
+                    view.onHistoryDeleted(position);
+            }
         }
     }
 }

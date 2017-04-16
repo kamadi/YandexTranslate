@@ -13,17 +13,17 @@ import kz.kamadi.yandextranslate.data.entity.History;
 
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryViewHolder> {
     private Context context;
-    private OnHistoryUpdateListener onHistoryUpdateListener;
+    private OnHistoryActionListener onHistoryActionListener;
     private List<History> histories = new ArrayList<>();
 
-    public HistoryAdapter(Context context, OnHistoryUpdateListener onHistoryUpdateListener) {
+    public HistoryAdapter(Context context, OnHistoryActionListener onHistoryActionListener) {
         this.context = context;
-        this.onHistoryUpdateListener = onHistoryUpdateListener;
+        this.onHistoryActionListener = onHistoryActionListener;
     }
 
     @Override
     public HistoryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new HistoryViewHolder(LayoutInflater.from(context).inflate(R.layout.list_item_history, parent, false), onHistoryUpdateListener);
+        return new HistoryViewHolder(LayoutInflater.from(context).inflate(R.layout.list_item_history, parent, false), onHistoryActionListener);
     }
 
     @Override
@@ -48,7 +48,14 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryViewHolder> {
         notifyItemRangeInserted(oldSize, histories.size());
     }
 
-    public interface OnHistoryUpdateListener {
+    public void deleteItem(int position) {
+        this.histories.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    public interface OnHistoryActionListener {
         void onHistoryUpdate(History history);
+
+        void onHistoryDelete(History history, int position);
     }
 }

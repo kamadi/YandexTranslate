@@ -8,4 +8,6 @@ import kz.kamadi.yandextranslate.ui.base.BaseView;
 public interface HistoryItemView extends BaseView {
 
     void showHistories(List<History> histories);
+
+    void onHistoryDeleted(int position);
 }

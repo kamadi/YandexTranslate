@@ -8,6 +8,7 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnLongClick;
 import kz.kamadi.yandextranslate.R;
 import kz.kamadi.yandextranslate.data.entity.History;
 
@@ -21,12 +22,12 @@ public class HistoryViewHolder extends RecyclerView.ViewHolder {
     TextView languageTextView;
     @BindView(R.id.favourite_button)
     ImageButton favouriteButton;
-    private HistoryAdapter.OnHistoryUpdateListener onHistoryUpdateListener;
+    private HistoryAdapter.OnHistoryActionListener onHistoryActionListener;
     private History history;
 
-    public HistoryViewHolder(View itemView, HistoryAdapter.OnHistoryUpdateListener onHistoryUpdateListener) {
+    public HistoryViewHolder(View itemView, HistoryAdapter.OnHistoryActionListener onHistoryActionListener) {
         super(itemView);
-        this.onHistoryUpdateListener = onHistoryUpdateListener;
+        this.onHistoryActionListener = onHistoryActionListener;
         ButterKnife.bind(this, itemView);
     }
 
@@ -50,6 +51,13 @@ public class HistoryViewHolder extends RecyclerView.ViewHolder {
     void onFavouriteButtonClick() {
         history.setFavourite(!history.isFavourite());
         setFavourite();
-        onHistoryUpdateListener.onHistoryUpdate(history);
+        onHistoryActionListener.onHistoryUpdate(history);
     }
+
+    @OnLongClick(R.id.container)
+    boolean onContainerLongClick(){
+        onHistoryActionListener.onHistoryDelete(history,getAdapterPosition());
+        return false;
+    }
+
 }

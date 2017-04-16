@@ -5,10 +5,12 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -32,7 +34,7 @@ import kz.kamadi.yandextranslate.ui.widgets.TranslateEditText;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
 
-public class HistoryItemFragment extends BaseFragment implements HistoryItemView, OnPageVisibleListener, HistoryAdapter.OnHistoryUpdateListener, TextWatcher, TranslateEditText.EditTextImeBackListener, View.OnTouchListener {
+public class HistoryItemFragment extends BaseFragment implements HistoryItemView, OnPageVisibleListener, HistoryAdapter.OnHistoryActionListener, TextWatcher, TranslateEditText.EditTextImeBackListener, View.OnTouchListener {
     private static final String FAVOURITE = "kz.kamadi.yandextranslate.ui.history.HistoryItemFragment.FAVOURITE";
     @BindView(R.id.container)
     RelativeLayout container;
@@ -144,6 +146,11 @@ public class HistoryItemFragment extends BaseFragment implements HistoryItemView
     }
 
     @Override
+    public void onHistoryDeleted(int position) {
+        adapter.deleteItem(position);
+    }
+
+    @Override
     public void onPageVisible() {
         presenter.attachView(this);
         getHistories();
@@ -164,6 +171,21 @@ public class HistoryItemFragment extends BaseFragment implements HistoryItemView
     @Override
     public void onHistoryUpdate(History history) {
         presenter.update(history);
+    }
+
+    @Override
+    public void onHistoryDelete(History history, int position) {
+        Log.e("onHistoryDelete",position+"");
+        new AlertDialog.Builder(context)
+                .setTitle(R.string.deleting)
+                .setMessage(R.string.deleting_message)
+                .setPositiveButton(android.R.string.yes, (dialog, which) -> {
+                    presenter.delete(history,position,isFavourite);
+                })
+                .setNegativeButton(android.R.string.no, (dialog, which) -> {
+
+                })
+                .show();
     }
 
     @Override
