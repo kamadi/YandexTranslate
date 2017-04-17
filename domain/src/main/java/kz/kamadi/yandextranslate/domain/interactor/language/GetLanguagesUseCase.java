@@ -4,6 +4,7 @@ package kz.kamadi.yandextranslate.domain.interactor.language;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import io.reactivex.Observable;
 import kz.kamadi.yandextranslate.domain.entity.LanguageEntity;
@@ -17,7 +18,7 @@ public class GetLanguagesUseCase extends UseCase<List<LanguageEntity>> {
     private LanguageRepository repository;
 
     @Inject
-    public GetLanguagesUseCase(ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread, LanguageRepository repository) {
+    public GetLanguagesUseCase(ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread,@Named("local") LanguageRepository repository) {
         super(threadExecutor, postExecutionThread);
         this.repository = repository;
     }

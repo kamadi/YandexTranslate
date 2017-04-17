@@ -1,5 +1,6 @@
 package kz.kamadi.yandextranslate.ui.translate;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -28,12 +29,15 @@ import kz.kamadi.yandextranslate.data.entity.Translation;
 import kz.kamadi.yandextranslate.data.manager.LanguageManager;
 import kz.kamadi.yandextranslate.presenter.TranslationPresenter;
 import kz.kamadi.yandextranslate.ui.base.BaseFragment;
+import kz.kamadi.yandextranslate.ui.language.LanguageActivity;
 import kz.kamadi.yandextranslate.ui.widgets.DictionaryView;
 import kz.kamadi.yandextranslate.ui.widgets.TranslateEditText;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
 
 public class TranslateFragment extends BaseFragment implements TranslateView, TextWatcher, TranslateEditText.EditTextImeBackListener, View.OnTouchListener {
+
+    private static final int REQUEST_CODE = 5;
 
     private final long DELAY = 1000;
     @BindView(R.id.dictionary_view)
@@ -48,9 +52,9 @@ public class TranslateFragment extends BaseFragment implements TranslateView, Te
     RelativeLayout inputLayout;
     @BindView(R.id.text_edit_text)
     TranslateEditText translateEditText;
-    @BindView(R.id.primary_lang_text_view)
+    @BindView(R.id.source_lang_text_view)
     TextView primaryLangTextView;
-    @BindView(R.id.translation_lang_text_view)
+    @BindView(R.id.target_lang_text_view)
     TextView translationLangTextView;
     @BindDrawable(R.drawable.border)
     Drawable border;
@@ -61,7 +65,7 @@ public class TranslateFragment extends BaseFragment implements TranslateView, Te
     @Inject
     LanguageManager languageManager;
     Set<String> texts = new HashSet<>();
-    private Language primaryLanguage, translationLanguage;
+    private Language sourceLanguage, targetLanguage;
     private boolean isLoading = false;
     private boolean isKeyboardClosed = true;
     private long lastEditTextTime = 0;
@@ -69,7 +73,7 @@ public class TranslateFragment extends BaseFragment implements TranslateView, Te
     private Handler handler = new Handler();
     private Runnable inputFinishChecker = () -> {
         if (System.currentTimeMillis() > (lastEditTextTime + DELAY - 500)) {
-            presenter.translate(translateEditText.getText().toString(), primaryLanguage.getCode() + "-" + translationLanguage.getCode());
+            presenter.translate(translateEditText.getText().toString(), sourceLanguage.getCode() + "-" + targetLanguage.getCode());
         }
     };
 
@@ -92,14 +96,18 @@ public class TranslateFragment extends BaseFragment implements TranslateView, Te
         translateEditText.setOnEditTextImeBackListener(this);
         translateEditText.addTextChangedListener(this);
         translateEditText.setOnTouchListener(this);
-        primaryLanguage = languageManager.getPrimaryLanguage();
-        translationLanguage = languageManager.getTranslationLanguage();
-        if (primaryLanguage != null) {
-            primaryLangTextView.setText(primaryLanguage.getName());
+        initLanguages();
+    }
+
+    private void initLanguages() {
+        sourceLanguage = languageManager.getSourceLanguage();
+        targetLanguage = languageManager.getTargetLanguage();
+        if (sourceLanguage != null) {
+            primaryLangTextView.setText(sourceLanguage.getName());
         }
 
-        if (translationLanguage != null) {
-            translationLangTextView.setText(translationLanguage.getName());
+        if (targetLanguage != null) {
+            translationLangTextView.setText(targetLanguage.getName());
         }
     }
 
@@ -113,6 +121,14 @@ public class TranslateFragment extends BaseFragment implements TranslateView, Te
     public void onStop() {
         super.onStop();
         presenter.detachView();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE){
+            initLanguages();
+        }
     }
 
     @Override
@@ -197,15 +213,33 @@ public class TranslateFragment extends BaseFragment implements TranslateView, Te
     }
 
     @OnClick(R.id.language_switch_view)
-    void onLanguageSwitchClick(){
-        String name = primaryLanguage.getName();
-        String code = primaryLanguage.getCode();
-        primaryLanguage = new Language(translationLanguage);
-        translationLanguage = new Language(name,code);
-        primaryLangTextView.setText(primaryLanguage.getName());
-        translationLangTextView.setText(translationLanguage.getName());
-        languageManager.savePrimaryLanguage(primaryLanguage);
-        languageManager.saveTranslationLanguage(translationLanguage);
+    void onLanguageSwitchClick() {
+        String name = sourceLanguage.getName();
+        String code = sourceLanguage.getCode();
+        sourceLanguage = new Language(targetLanguage);
+        targetLanguage = new Language(name, code);
+        primaryLangTextView.setText(sourceLanguage.getName());
+        translationLangTextView.setText(targetLanguage.getName());
+        languageManager.saveSourceLanguage(sourceLanguage);
+        languageManager.saveTargetLanguage(targetLanguage);
+    }
+
+    @OnClick(R.id.source_lang_text_view)
+    void onSourceLangClick() {
+        start(LanguageActivity.SOURCE);
+    }
+
+    @OnClick(R.id.target_lang_text_view)
+    void onTargetLangClick() {
+        start(LanguageActivity.TARGET);
+    }
+
+    private void start(int type) {
+        Intent intent = new Intent(context, LanguageActivity.class);
+        intent.putExtra(LanguageActivity.TYPE, type);
+        intent.putExtra(LanguageActivity.SOURCE_LANGUAGE, sourceLanguage);
+        intent.putExtra(LanguageActivity.TARGET_LANGUAGE, targetLanguage);
+        startActivityForResult(intent, REQUEST_CODE);
     }
 
     private void openKeyboard() {
@@ -216,4 +250,6 @@ public class TranslateFragment extends BaseFragment implements TranslateView, Te
             isKeyboardClosed = false;
         });
     }
+
+
 }

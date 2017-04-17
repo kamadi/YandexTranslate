@@ -77,8 +77,8 @@ public class SplashActivity extends BaseActivity implements SplashView {
     @Override
     public void onLanguagesCreated() {
         languageManager.setDownloaded();
-        languageManager.savePrimaryLanguage(new Language("Английский", "en"));
-        languageManager.saveTranslationLanguage(new Language("Русский", "ru"));
+        languageManager.saveSourceLanguage(new Language("Английский", "en"));
+        languageManager.saveTargetLanguage(new Language("Русский", "ru"));
         MainActivity.start(this);
     }
 }

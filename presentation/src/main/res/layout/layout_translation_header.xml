@@ -1,16 +1,20 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
+    android:paddingRight="@dimen/default_padding"
+    android:paddingLeft="@dimen/default_padding"
     android:background="@color/colorPrimary">
 
     <TextView
-        android:id="@+id/primary_lang_text_view"
+        android:id="@+id/source_lang_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_toLeftOf="@+id/language_switch_view"
         android:layout_toStartOf="@+id/language_switch_view"
         android:text="English"
+        android:ellipsize="end"
+        android:maxLines="1"
         android:textColor="@color/toolbar_title"
         android:textSize="@dimen/toolbar_title" />
 
@@ -26,10 +30,12 @@
         android:src="@drawable/ic_switch_language" />
 
     <TextView
-        android:id="@+id/translation_lang_text_view"
+        android:id="@+id/target_lang_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
+        android:ellipsize="end"
+        android:maxLines="1"
         android:layout_toEndOf="@+id/language_switch_view"
         android:layout_toRightOf="@+id/language_switch_view"
         android:text="English"

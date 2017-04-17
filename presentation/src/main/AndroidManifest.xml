@@ -25,8 +25,8 @@
         </activity>
         <activity
             android:name=".ui.main.MainActivity"
-            android:windowSoftInputMode="adjustNothing"/>
-
+            android:windowSoftInputMode="adjustNothing" />
+        <activity android:name=".ui.language.LanguageActivity" />
     </application>
 
 </manifest>

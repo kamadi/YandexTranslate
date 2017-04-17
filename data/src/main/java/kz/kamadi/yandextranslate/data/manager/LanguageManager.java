@@ -9,10 +9,10 @@ import kz.kamadi.yandextranslate.data.entity.Language;
 public class LanguageManager {
 
     private static final String DOWNLOAD = "kz.kamadi.yandextranslate.data.manager.LanguageManager.DOWNLOAD";
-    private static final String PRIMARY_NAME = "kz.kamadi.yandextranslate.data.manager.LanguageManager.PRIMARY_NAME";
-    private static final String PRIMARY_CODE = "kz.kamadi.yandextranslate.data.manager.LanguageManager.PRIMARY_CODE";
-    private static final String TRANSLATION_NAME = "kz.kamadi.yandextranslate.data.manager.LanguageManager.TRANSLATION_NAME";
-    private static final String TRANSLATION_CODE = "kz.kamadi.yandextranslate.data.manager.LanguageManager.TRANSLATION_CODE";
+    private static final String SOURCE_NAME = "kz.kamadi.yandextranslate.data.manager.LanguageManager.SOURCE_NAME";
+    private static final String SOURCE_CODE = "kz.kamadi.yandextranslate.data.manager.LanguageManager.SOURCE_CODE";
+    private static final String TARGET_NAME = "kz.kamadi.yandextranslate.data.manager.LanguageManager.TARGET_NAME";
+    private static final String TARGET_CODE = "kz.kamadi.yandextranslate.data.manager.LanguageManager.TARGET_CODE";
 
     private SharedPreferences sharedPreferences;
 
@@ -31,51 +31,51 @@ public class LanguageManager {
                 .commit();
     }
 
-    public Language getPrimaryLanguage() {
+    public Language getSourceLanguage() {
         Language language = null;
 
-        String name = sharedPreferences.getString(PRIMARY_NAME, null);
+        String name = sharedPreferences.getString(SOURCE_NAME, null);
 
         if (name != null) {
             language = new Language();
             language.setName(name);
-            language.setCode(sharedPreferences.getString(PRIMARY_CODE, null));
+            language.setCode(sharedPreferences.getString(SOURCE_CODE, null));
             return language;
         }
         return language;
     }
 
-    public Language getTranslationLanguage() {
+    public Language getTargetLanguage() {
         Language language = null;
 
-        String name = sharedPreferences.getString(TRANSLATION_NAME, null);
+        String name = sharedPreferences.getString(TARGET_NAME, null);
 
         if (name != null) {
             language = new Language();
             language.setName(name);
-            language.setCode(sharedPreferences.getString(TRANSLATION_CODE, null));
+            language.setCode(sharedPreferences.getString(TARGET_CODE, null));
             return language;
         }
         return language;
     }
 
-    public boolean savePrimaryLanguage(Language language) {
+    public boolean saveSourceLanguage(Language language) {
         if (language.getName() == null || language.getCode() == null)
             return false;
 
         return sharedPreferences.edit()
-                .putString(PRIMARY_NAME, language.getName())
-                .putString(PRIMARY_CODE, language.getCode())
+                .putString(SOURCE_NAME, language.getName())
+                .putString(SOURCE_CODE, language.getCode())
                 .commit();
     }
 
-    public boolean saveTranslationLanguage(Language language) {
+    public boolean saveTargetLanguage(Language language) {
         if (language.getName() == null || language.getCode() == null)
             return false;
 
         return sharedPreferences.edit()
-                .putString(TRANSLATION_NAME, language.getName())
-                .putString(TRANSLATION_CODE, language.getCode())
+                .putString(TARGET_NAME, language.getName())
+                .putString(TARGET_CODE, language.getCode())
                 .commit();
     }
 }

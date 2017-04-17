@@ -35,17 +35,17 @@ public class LanguageManagerTest {
     @Test
     public void testPrimaryLanguage(){
 
-        assertNull(languageManager.getPrimaryLanguage());
+        assertNull(languageManager.getSourceLanguage());
 
-        assertFalse(languageManager.savePrimaryLanguage(new Language("English",null)));
+        assertFalse(languageManager.saveSourceLanguage(new Language("English",null)));
 
-        assertFalse(languageManager.savePrimaryLanguage(new Language(null,"en")));
+        assertFalse(languageManager.saveSourceLanguage(new Language(null,"en")));
 
         Language mockLanguage = new Language("English","en");
 
-        assertTrue(languageManager.savePrimaryLanguage(mockLanguage));
+        assertTrue(languageManager.saveSourceLanguage(mockLanguage));
 
-        Language language = languageManager.getPrimaryLanguage();
+        Language language = languageManager.getSourceLanguage();
 
         assertEquals(language.getName(),mockLanguage.getName());
 
@@ -56,17 +56,17 @@ public class LanguageManagerTest {
     @Test
     public void testTranslationLanguage(){
 
-        assertNull(languageManager.getTranslationLanguage());
+        assertNull(languageManager.getTargetLanguage());
 
-        assertFalse(languageManager.saveTranslationLanguage(new Language("English",null)));
+        assertFalse(languageManager.saveTargetLanguage(new Language("English",null)));
 
-        assertFalse(languageManager.saveTranslationLanguage(new Language(null,"en")));
+        assertFalse(languageManager.saveTargetLanguage(new Language(null,"en")));
 
         Language mockLanguage = new Language("English","en");
 
-        assertTrue(languageManager.saveTranslationLanguage(mockLanguage));
+        assertTrue(languageManager.saveTargetLanguage(mockLanguage));
 
-        Language language = languageManager.getTranslationLanguage();
+        Language language = languageManager.getTargetLanguage();
 
         assertEquals(language.getName(),mockLanguage.getName());
 

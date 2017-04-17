@@ -6,7 +6,7 @@
     <color name="tab_selected">#000000</color>
     <color name="background_button">#4d000000</color>
     <color name="toolbar_title">#ff222222</color>
-
+    <color name="grey">#ffe0e0e0</color>
     <color name="dictionary_ex">#ff798aa8</color>
     <color name="dictionary_tr_pos">#ffa37d92</color>
     <color name="dictionary_title">#ff333333</color>
