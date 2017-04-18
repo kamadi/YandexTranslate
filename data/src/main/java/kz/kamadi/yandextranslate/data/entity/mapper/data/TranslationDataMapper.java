@@ -22,6 +22,8 @@ public class TranslationDataMapper {
         Translation translation = null;
         if (entity != null) {
             translation = new Translation();
+            translation.setText(entity.getText());
+            translation.setLanguage(entity.getLanguage());
             translation.setHistory(historyDataMapper.transform(entity.getHistoryEntity()));
             translation.setTranslate(translateDataMapper.transform(entity.getTranslateEntity()));
             translation.setDictionary(dictionaryDataMapper.transform(entity.getDictionaryEntity()));

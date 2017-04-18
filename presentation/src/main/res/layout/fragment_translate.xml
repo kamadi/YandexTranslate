@@ -15,8 +15,8 @@
         android:layout_height="150dp"
         android:layout_below="@+id/header"
         android:layout_margin="@dimen/default_padding"
-        android:focusableInTouchMode="true"
         android:background="@drawable/border"
+        android:focusableInTouchMode="true"
         android:padding="5dp">
 
         <kz.kamadi.yandextranslate.ui.widgets.TranslateEditText
@@ -93,7 +93,7 @@
             android:adjustViewBounds="true"
             android:background="@null"
             android:scaleType="fitCenter"
-            android:src="@drawable/ic_tab_fav" />
+            android:src="@drawable/favourite_not_selected" />
 
         <ImageButton
             android:id="@+id/share_button"

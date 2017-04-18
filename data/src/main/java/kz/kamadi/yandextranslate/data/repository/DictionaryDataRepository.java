@@ -27,10 +27,13 @@ public class DictionaryDataRepository implements DictionaryRepository {
     @Override
     public Observable<DictionaryEntity> getDictionary(String text, String lang) {
         return api.getDictionary(text, lang).map(responseBody -> {
-            String response = responseBody.body().string();
-            Dictionary dictionary = gson.fromJson(response, Dictionary.class);
-            dictionary.setContent(response);
-            return mapper.transform(dictionary);
+            if (responseBody.isSuccessful()) {
+                String response = responseBody.body().string();
+                Dictionary dictionary = gson.fromJson(response, Dictionary.class);
+                dictionary.setContent(response);
+                return mapper.transform(dictionary);
+            }
+            return new DictionaryEntity();
         });
     }
 }

@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -56,6 +57,8 @@ public class TranslateFragment extends BaseFragment implements TranslateView, Te
     TextView primaryLangTextView;
     @BindView(R.id.target_lang_text_view)
     TextView translationLangTextView;
+    @BindView(R.id.favourite_button)
+    ImageButton favouriteButton;
     @BindDrawable(R.drawable.border)
     Drawable border;
     @BindDrawable(R.drawable.border_yellow)
@@ -67,13 +70,13 @@ public class TranslateFragment extends BaseFragment implements TranslateView, Te
     Set<String> texts = new HashSet<>();
     private Language sourceLanguage, targetLanguage;
     private boolean isLoading = false;
-    private boolean isKeyboardClosed = true;
+    private boolean isKeyboardOpen = true;
     private long lastEditTextTime = 0;
 
     private Handler handler = new Handler();
     private Runnable inputFinishChecker = () -> {
         if (System.currentTimeMillis() > (lastEditTextTime + DELAY - 500)) {
-            presenter.translate(translateEditText.getText().toString(), sourceLanguage.getCode() + "-" + targetLanguage.getCode());
+            translate();
         }
     };
 
@@ -126,8 +129,9 @@ public class TranslateFragment extends BaseFragment implements TranslateView, Te
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE){
+        if (requestCode == REQUEST_CODE) {
             initLanguages();
+            handler.postDelayed(inputFinishChecker, DELAY);
         }
     }
 
@@ -160,11 +164,15 @@ public class TranslateFragment extends BaseFragment implements TranslateView, Te
         this.translation = translation;
         translationTextView.setText(translation.getTranslate().getText().get(0));
         dictionaryView.setDictionary(translation.getDictionary());
+        if (!isKeyboardOpen) {
+            presenter.createHistory(translation);
+        }
     }
 
     @Override
     public void onHistoryCreated(History history) {
         Log.e("history", history.getId() + "");
+        translation.setHistory(history);
     }
 
     @OnClick(R.id.clear_image_button)
@@ -173,7 +181,15 @@ public class TranslateFragment extends BaseFragment implements TranslateView, Te
         dictionaryView.clearView();
         translationTextView.setText("");
         resultLayout.setVisibility(View.GONE);
-        openKeyboard();
+        if (!isKeyboardOpen) {
+            handler.post(() -> {
+                InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(INPUT_METHOD_SERVICE);
+                inputMethodManager.toggleSoftInputFromWindow(translateEditText.getApplicationWindowToken(), InputMethodManager.SHOW_FORCED, 0);
+                translateEditText.requestFocus();
+                isKeyboardOpen = true;
+            });
+        }
+        changeSearchLayout(true);
     }
 
     @Override
@@ -196,20 +212,28 @@ public class TranslateFragment extends BaseFragment implements TranslateView, Te
 
     @Override
     public void onImeBack() {
-        inputLayout.setBackground(border);
-        translateEditText.setCursorVisible(false);
-        if (translation != null && !isLoading && texts.add(translateEditText.getText().toString())) {
-            isKeyboardClosed = true;
-            presenter.createHistory(translateEditText.getText().toString(), "en-ru", translation);
+        changeSearchLayout(false);
+        if (translation != null && !isLoading && texts.add(translation.getText())) {
+            presenter.createHistory(translation);
         }
     }
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        inputLayout.setBackground(borderActive);
-        translateEditText.setCursorVisible(true);
-        isKeyboardClosed = false;
+        changeSearchLayout(true);
         return false;
+    }
+
+    private void changeSearchLayout(boolean isActive) {
+        if (isActive) {
+            inputLayout.setBackground(borderActive);
+            translateEditText.setCursorVisible(true);
+            isKeyboardOpen = true;
+        } else {
+            inputLayout.setBackground(border);
+            translateEditText.setCursorVisible(false);
+            isKeyboardOpen = false;
+        }
     }
 
     @OnClick(R.id.language_switch_view)
@@ -222,6 +246,7 @@ public class TranslateFragment extends BaseFragment implements TranslateView, Te
         translationLangTextView.setText(targetLanguage.getName());
         languageManager.saveSourceLanguage(sourceLanguage);
         languageManager.saveTargetLanguage(targetLanguage);
+        translate();
     }
 
     @OnClick(R.id.source_lang_text_view)
@@ -234,6 +259,7 @@ public class TranslateFragment extends BaseFragment implements TranslateView, Te
         start(LanguageActivity.TARGET);
     }
 
+
     private void start(int type) {
         Intent intent = new Intent(context, LanguageActivity.class);
         intent.putExtra(LanguageActivity.TYPE, type);
@@ -242,14 +268,43 @@ public class TranslateFragment extends BaseFragment implements TranslateView, Te
         startActivityForResult(intent, REQUEST_CODE);
     }
 
-    private void openKeyboard() {
-        handler.post(() -> {
-            InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(INPUT_METHOD_SERVICE);
-            inputMethodManager.toggleSoftInputFromWindow(translateEditText.getApplicationWindowToken(), InputMethodManager.SHOW_FORCED, 0);
-            translateEditText.requestFocus();
-            isKeyboardClosed = false;
-        });
+
+    private void translate() {
+        if (!translateEditText.getText().toString().isEmpty()) {
+            favouriteButton.setImageResource(R.drawable.favourite_not_selected);
+            presenter.translate(translateEditText.getText().toString(), sourceLanguage.getCode() + "-" + targetLanguage.getCode());
+        }
     }
 
+    @OnClick(R.id.favourite_button)
+    void onFavouriteButtonClick() {
+        if (translation != null && translation.getHistory() != null) {
+            History history = translation.getHistory();
+            history.setFavourite(!history.isFavourite());
+            if (history.isFavourite()) {
+                favouriteButton.setImageResource(R.drawable.favourite_selected);
+            } else {
+                favouriteButton.setImageResource(R.drawable.favourite_not_selected);
+            }
+            presenter.updateHistory(history);
+        }
+    }
 
+    @OnClick(R.id.share_button)
+    void onShareButtonClick() {
+        if (translation != null) {
+            Intent sendIntent = new Intent();
+            sendIntent.setAction(Intent.ACTION_SEND);
+            sendIntent.putExtra(Intent.EXTRA_TEXT, translation.getText());
+            sendIntent.setType("text/plain");
+            startActivity(sendIntent);
+        }
+    }
+
+    @OnClick(R.id.fullscreen_button)
+    void onFullscreenButtonClick() {
+        if (translation != null) {
+            TranslationActivity.start(getContext(),translation.getTranslate().getText().get(0));
+        }
+    }
 }

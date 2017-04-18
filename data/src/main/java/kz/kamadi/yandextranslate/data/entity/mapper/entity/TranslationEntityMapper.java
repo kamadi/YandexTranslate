@@ -18,10 +18,12 @@ public class TranslationEntityMapper {
         this.translateEntityMapper = translateEntityMapper;
     }
 
-    public TranslationEntity transform(Translation translation){
+    public TranslationEntity transform(Translation translation) {
         TranslationEntity entity = null;
-        if (translation != null){
+        if (translation != null) {
             entity = new TranslationEntity();
+            entity.setText(translation.getText());
+            entity.setLanguage(translation.getLanguage());
             entity.setHistoryEntity(historyEntityMapper.transform(translation.getHistory()));
             entity.setTranslateEntity(translateEntityMapper.transform(translation.getTranslate()));
             entity.setDictionaryEntity(dictionaryEntityMapper.transform(translation.getDictionary()));

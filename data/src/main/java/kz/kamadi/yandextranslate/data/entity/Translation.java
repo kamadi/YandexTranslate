@@ -1,10 +1,27 @@
 package kz.kamadi.yandextranslate.data.entity;
 
 public class Translation {
-
+    private String text;
+    private String language;
     private Dictionary dictionary;
     private Translate translate;
     private History history;
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
 
     public Dictionary getDictionary() {
         return dictionary;

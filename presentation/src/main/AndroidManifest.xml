@@ -27,6 +27,9 @@
             android:name=".ui.main.MainActivity"
             android:windowSoftInputMode="adjustNothing" />
         <activity android:name=".ui.language.LanguageActivity" />
+        <activity
+            android:name=".ui.translate.TranslationActivity"
+            android:theme="@style/AppTheme.Fullscreen" />
     </application>
 
 </manifest>

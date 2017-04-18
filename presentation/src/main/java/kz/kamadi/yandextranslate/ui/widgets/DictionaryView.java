@@ -59,14 +59,14 @@ public class DictionaryView extends ScrollView {
 
                     int i = 1;
                     if (def.getPos() != null) {
-                        linearLayout.addView(createTextView(def.getPos(), R.color.dictionary_tr_pos, R.dimen.dictionary_tr_pos, getDimen(R.dimen.medium_padding), 0, 0,false));
+                        linearLayout.addView(createTextView(def.getPos(), R.color.dictionary_tr_pos, R.dimen.dictionary_tr_pos, getDimen(R.dimen.medium_padding), 0, 0, false));
                     }
                     for (Dictionary.Tr tr : def.getTr()) {
                         LinearLayout horizontalLayout = new LinearLayout(getContext());
                         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                         horizontalLayout.setLayoutParams(layoutParams);
                         horizontalLayout.setOrientation(LinearLayout.HORIZONTAL);
-                        horizontalLayout.addView(createTextView(i + " ", R.color.dictionary_tr_syn_number, R.dimen.dictionary_tr_syn_number, 0, 0, 0,false));
+                        horizontalLayout.addView(createTextView(i + " ", R.color.dictionary_tr_syn_number, R.dimen.dictionary_tr_syn_number, 0, 0, 0, false));
 
                         CharSequence synCharSequence;
                         synCharSequence = getSynText(tr.getText(), tr.getGen(), R.color.dictionary_tr_syn, R.color.dictionary_tr_syn_gen, tr.getSyn() == null);
@@ -107,7 +107,7 @@ public class DictionaryView extends ScrollView {
                                     stringBuilder.append(exTr1.getText());
                                     stringBuilder.append(" ");
                                 }
-                                linearLayout.addView(createTextView(stringBuilder.toString(), R.color.dictionary_ex, R.dimen.dictionary_tr_ex, 0, 0, getDimen(R.dimen.dictionary_tr_ex_padding_left),true));
+                                linearLayout.addView(createTextView(stringBuilder.toString(), R.color.dictionary_ex, R.dimen.dictionary_tr_ex, 0, 0, getDimen(R.dimen.dictionary_tr_ex_padding_left), true));
                             }
                         }
                         i++;
@@ -172,10 +172,17 @@ public class DictionaryView extends ScrollView {
 
     private TextView createTitle(String text, String transcription) {
         TextView textView = new TextView(getContext());
-        transcription = "[" + transcription + "]";
-        SpannableString spannableString = new SpannableString(text + " " + transcription);
-        spannableString.setSpan(new ForegroundColorSpan(getColor(R.color.dictionary_title)), 0, text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        spannableString.setSpan(new ForegroundColorSpan(getColor(R.color.dictionary_transcription)), text.length(), spannableString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        SpannableString spannableString = null;
+        if (transcription != null) {
+            transcription = "[" + transcription + "]";
+            spannableString = new SpannableString(text + " " + transcription);
+            spannableString.setSpan(new ForegroundColorSpan(getColor(R.color.dictionary_title)), 0, text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            spannableString.setSpan(new ForegroundColorSpan(getColor(R.color.dictionary_transcription)), text.length(), spannableString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        } else {
+            spannableString = new SpannableString(text);
+            spannableString.setSpan(new ForegroundColorSpan(getColor(R.color.dictionary_title)), 0, text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        }
         textView.setText(spannableString);
         textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, getDimen(R.dimen.dictionary_title));
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
