@@ -3,7 +3,8 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/border_bottom"
+    android:clickable="true"
+    android:background="?attr/selectableItemBackground"
     android:orientation="vertical"
     android:paddingBottom="@dimen/default_padding"
     android:paddingTop="@dimen/default_padding">

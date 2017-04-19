@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import kz.kamadi.yandextranslate.data.entity.Dictionary;
@@ -91,10 +92,11 @@ public class HistoryDaoTest {
         List<Integer> idList = new ArrayList<>(30);
         for (int i = 0; i < 30; i++) {
             History fakeHistory = getHistory();
+            fakeHistory.setText("text"+i);
             fakeHistory.setFavourite(false);
             idList.add(dao.create(fakeHistory).getId());
         }
-
+        Collections.reverse(idList);
         List<History> histories = dao.getHistories(0, 10, false);
         assertTrue(!histories.isEmpty());
         assertEquals(histories.size(), 10);
@@ -103,7 +105,7 @@ public class HistoryDaoTest {
         assertTrue(!histories.get(0).isFavourite());
         assertTrue(!histories.get(9).isFavourite());
 
-        histories = dao.getHistories(10, 10, false);
+        histories = dao.getHistories(histories.size(), 10, false);
         assertTrue(!histories.isEmpty());
         assertEquals(histories.size(), 10);
         assertEquals(histories.get(0).getId(), idList.get(10));
@@ -120,7 +122,7 @@ public class HistoryDaoTest {
         for (int i = 0; i < 30; i++) {
             idList.add(dao.create(getHistory()).getId());
         }
-
+        Collections.reverse(idList);
         List<History> histories = dao.getHistories(0, 10, true);
         assertTrue(!histories.isEmpty());
         assertEquals(histories.size(), 10);

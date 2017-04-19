@@ -166,6 +166,7 @@ public class TranslateFragment extends BaseFragment implements TranslateView, Te
         dictionaryView.setDictionary(translation.getDictionary());
         if (!isKeyboardOpen) {
             presenter.createHistory(translation);
+            texts.add(translation.getText());
         }
     }
 

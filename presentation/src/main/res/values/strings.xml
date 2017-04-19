@@ -8,6 +8,8 @@
     <string name="language_download_error">Не удалось скачать список языков.\n Проверьте подключения к интернету</string>
     <string name="source_language">Source language</string>
     <string name="target_language">Target language</string>
+    <string name="history_error_message">No translations in History</string>
+    <string name="favourites_error_message">No translations in Favourites</string>
     <string-array name="history_tabs">
         <item>History</item>
         <item>Favourites</item>
