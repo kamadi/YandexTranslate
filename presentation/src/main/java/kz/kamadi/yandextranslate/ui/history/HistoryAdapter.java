@@ -43,9 +43,9 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryViewHolder> {
     }
 
     public void add(List<History> histories) {
-        int oldSize = this.histories.size() - 1;
+        int oldSize = this.histories.size();
         this.histories.addAll(histories);
-        notifyItemRangeInserted(oldSize, histories.size());
+        notifyItemRangeInserted(oldSize,this.histories.size());
     }
 
     public void deleteItem(int position) {

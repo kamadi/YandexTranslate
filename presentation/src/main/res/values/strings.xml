@@ -10,6 +10,7 @@
     <string name="target_language">Target language</string>
     <string name="history_error_message">No translations in History</string>
     <string name="favourites_error_message">No translations in Favourites</string>
+    <string name="search_not_found_message">No matches were found</string>
     <string-array name="history_tabs">
         <item>History</item>
         <item>Favourites</item>

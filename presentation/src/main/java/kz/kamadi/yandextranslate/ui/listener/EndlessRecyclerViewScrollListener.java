@@ -2,6 +2,7 @@ package kz.kamadi.yandextranslate.ui.listener;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 public class EndlessRecyclerViewScrollListener extends RecyclerView.OnScrollListener {
     // The minimum amount of items to have below your current scroll position
@@ -42,10 +43,12 @@ public class EndlessRecyclerViewScrollListener extends RecyclerView.OnScrollList
 
     public void setLoading(boolean loading) {
         this.isLoading = loading;
+        Log.e("setLoading", String.valueOf(loading));
     }
 
     public void setEnabled(boolean enabled) {
         isEnabled = enabled;
+        Log.e("setEnabled", String.valueOf(enabled));
     }
 
 }

@@ -11,7 +11,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -68,7 +67,7 @@ public class HistoryItemFragment extends BaseFragment implements HistoryItemView
     private List<History> histories = new ArrayList<>();
     private HistoryAdapter adapter;
     private int offset = 0;
-    private int limit = 15;
+    private final int LIMIT = 7;
     private boolean isFavourite;
     private Handler handler = new Handler();
     private boolean isKeyboardOpen = false;
@@ -93,13 +92,6 @@ public class HistoryItemFragment extends BaseFragment implements HistoryItemView
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        presenter.attachView(this);
-    }
-
-
-    @Override
     protected int layoutId() {
         return R.layout.fragment_history_item;
     }
@@ -110,18 +102,11 @@ public class HistoryItemFragment extends BaseFragment implements HistoryItemView
         if (getParentFragment() instanceof DeleteAllButtonVisibilityListener) {
             deleteAllButtonVisibilityListener = (DeleteAllButtonVisibilityListener) getParentFragment();
         }
-        if (isFavourite) {
-            searchEditText.setHint(R.string.search_favourites);
-            errorMessage.setText(R.string.favourites_error_message);
-            errorIcon.setImageResource(R.drawable.no_favourites);
-        } else {
-            searchEditText.setHint(R.string.search_history);
-            errorMessage.setText(R.string.history_error_message);
-            errorIcon.setImageResource(R.drawable.no_history);
-        }
-        searchEditText.setOnTouchListener(this);
-        searchEditText.addTextChangedListener(this);
-        searchEditText.setOnEditTextImeBackListener(this);
+        initSearchEditText();
+        initRecyclerView();
+    }
+
+    private void initRecyclerView() {
         adapter = new HistoryAdapter(context, this);
         recyclerView.setAdapter(adapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -131,20 +116,30 @@ public class HistoryItemFragment extends BaseFragment implements HistoryItemView
         recyclerView.addOnScrollListener(scrollListener);
     }
 
+    private void initSearchEditText() {
+        searchEditText.setHint(isFavourite ? R.string.search_favourites : R.string.search_history);
+        errorIcon.setImageResource(isFavourite ? R.drawable.no_favourites : R.drawable.no_history);
+        searchEditText.setOnTouchListener(this);
+        searchEditText.addTextChangedListener(this);
+        searchEditText.setOnEditTextImeBackListener(this);
+    }
 
-    @OnClick(R.id.clear_image_button)
-    public void onClearButtonClick() {
-        searchEditText.setText("");
-        getHistories();
-        if (!isKeyboardOpen) {
-            handler.post(() -> {
-                InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(INPUT_METHOD_SERVICE);
-                inputMethodManager.toggleSoftInputFromWindow(searchEditText.getApplicationWindowToken(), InputMethodManager.SHOW_FORCED, 0);
-                searchEditText.requestFocus();
-                isKeyboardOpen = true;
-            });
-        }
-        changeSearchLayout(true);
+    @Override
+    public void onResume() {
+        super.onResume();
+        presenter.attachView(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        presenter.detachView();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        presenter.destroy();
     }
 
     @Override
@@ -172,17 +167,21 @@ public class HistoryItemFragment extends BaseFragment implements HistoryItemView
         if (!isSearching && deleteAllButtonVisibilityListener != null && this.histories.isEmpty()) {
             deleteAllButtonVisibilityListener.setVisibility(!histories.isEmpty());
         }
-        if (!histories.isEmpty()){
+        if (!histories.isEmpty()) {
             scrollListener.setLoading(false);
+        }
+        if (isSearching) {
+            updateNotFoundLayoutVisibility(histories.isEmpty());
         }
         if (!isSearching && histories.isEmpty() && this.histories.isEmpty()) {
             updateErrorLayoutVisibility(true);
         } else {
-            updateErrorLayoutVisibility(false);
+            if (!isSearching)
+                updateErrorLayoutVisibility(false);
             if (this.histories.isEmpty()) {
                 this.histories = histories;
                 adapter.setHistories(histories);
-            } else {
+            } else if (!histories.isEmpty()) {
                 adapter.add(histories);
             }
         }
@@ -238,17 +237,6 @@ public class HistoryItemFragment extends BaseFragment implements HistoryItemView
                 .show();
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        presenter.detachView();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        presenter.destroy();
-    }
 
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -259,23 +247,17 @@ public class HistoryItemFragment extends BaseFragment implements HistoryItemView
     public void onTextChanged(CharSequence s, int start, int before, int count) {
         if (s.length() > 0) {
             histories.clear();
+            scrollListener.setEnabled(false);
             presenter.search(s.toString(), isFavourite);
+        } else if (isSearching) {
+            scrollListener.setEnabled(true);
+            getHistories();
         }
     }
 
     @Override
     public void afterTextChanged(Editable s) {
-        if (s.length() > 0) {
-            clearImageButton.setVisibility(View.VISIBLE);
-        } else {
-            clearImageButton.setVisibility(View.GONE);
-        }
-    }
-
-    @Override
-    public void onImeBack() {
-        changeSearchLayout(false);
-        isSearching = false;
+        clearImageButton.setVisibility(s.length() > 0 ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -287,41 +269,60 @@ public class HistoryItemFragment extends BaseFragment implements HistoryItemView
 
     @Override
     public void onLoadMore() {
-        if (!isSearching) {
+        if (!isSearching && offset > 0) {
             scrollListener.setLoading(true);
-            Log.e("offset", offset + "");
-            presenter.getHistories(offset, limit, isFavourite);
+            presenter.getHistories(offset, LIMIT, isFavourite);
         }
     }
 
-    private void changeSearchLayout(boolean isActive) {
-        if (isActive) {
-            searchLayout.setBackground(borderBottomActive);
-            searchEditText.setCursorVisible(true);
-            isKeyboardOpen = true;
-        } else {
-            searchLayout.setBackground(borderBottom);
-            searchEditText.setCursorVisible(false);
-            isKeyboardOpen = false;
+    @OnClick(R.id.clear_image_button)
+    public void onClearButtonClick() {
+        searchEditText.setText("");
+        isSearching = true;
+        getHistories();
+        if (!isKeyboardOpen) {
+            handler.post(() -> {
+                InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(INPUT_METHOD_SERVICE);
+                inputMethodManager.toggleSoftInputFromWindow(searchEditText.getApplicationWindowToken(), InputMethodManager.SHOW_FORCED, 0);
+                searchEditText.requestFocus();
+                isKeyboardOpen = true;
+            });
         }
+        changeSearchLayout(true);
     }
 
-    private void updateErrorLayoutVisibility(boolean isDisplay) {
-        if (isDisplay) {
-            searchLayout.setVisibility(View.GONE);
-            recyclerView.setVisibility(View.GONE);
-            errorLayout.setVisibility(View.VISIBLE);
-        } else {
-            searchLayout.setVisibility(View.VISIBLE);
-            recyclerView.setVisibility(View.VISIBLE);
-            errorLayout.setVisibility(View.GONE);
-        }
+    @Override
+    public void onImeBack() {
+        changeSearchLayout(false);
+        scrollListener.setEnabled(true);
+        scrollListener.setLoading(false);
+        isSearching = false;
     }
 
     private void getHistories() {
         histories.clear();
         offset = 0;
         adapter.setHistories(new ArrayList<>());
-        presenter.getHistories(offset, limit, isFavourite);
+        presenter.getHistories(offset, LIMIT, isFavourite);
     }
+
+    private void changeSearchLayout(boolean isActive) {
+        searchLayout.setBackground(isActive ? borderBottomActive : borderBottom);
+        searchEditText.setCursorVisible(isActive);
+        isKeyboardOpen = isActive;
+    }
+
+    private void updateErrorLayoutVisibility(boolean isDisplay) {
+        errorMessage.setText(isFavourite ? R.string.favourites_error_message : R.string.history_error_message);
+        searchLayout.setVisibility(isDisplay ? View.GONE : View.VISIBLE);
+        recyclerView.setVisibility(isDisplay ? View.GONE : View.VISIBLE);
+        errorLayout.setVisibility(isDisplay ? View.VISIBLE : View.GONE);
+    }
+
+    private void updateNotFoundLayoutVisibility(boolean isDisplay) {
+        errorMessage.setText(R.string.search_not_found_message);
+        recyclerView.setVisibility(isDisplay ? View.GONE : View.VISIBLE);
+        errorLayout.setVisibility(isDisplay ? View.VISIBLE : View.GONE);
+    }
+
 }

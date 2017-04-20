@@ -148,13 +148,15 @@ public class HistoryDaoImpl extends Dao implements HistoryDao {
 
         String sql = "SELECT * FROM " + TABLE_NAME + " WHERE ";
 
-        sql += "(" + COLUMN_DICTIONARY + " LIKE '%" + text + "%' OR " + COLUMN_TEXT + " LIKE '%" + text + "%' OR " + COLUMN_TRANSLATION + " LIKE '%" + text + "%' )";
-
+//        sql += "(" + COLUMN_DICTIONARY + " LIKE '%" + text + "%' OR " + COLUMN_TEXT + " LIKE '%" + text + "%' OR " + COLUMN_TRANSLATION + " LIKE '%" + text + "%' )";
+        sql += "(" + COLUMN_TEXT + " LIKE '%" + text + "%' OR " + COLUMN_TRANSLATION + " LIKE '%" + text + "%' )";
         if (!isFavourite) {
             sql += " AND " + COLUMN_STATUS + "=" + STATUS_ACTIVE;
         }else {
             sql += " AND " + COLUMN_FAVOURITE + "=" + FAVOURITE;
         }
+
+        sql+=" ORDER BY " + COLUMN_ID + " DESC";
 
         cursor = rawQuery(sql, null);
 
