@@ -87,8 +87,10 @@ ext {
             javaxAnnotation:    "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
             androidCompatv7:    "com.android.support:appcompat-v7:${androidSupportVersion}",
             androidSupportv4:   "com.android.support:support-v4:${androidSupportVersion}",
-            androidDesign:      "com.android.support:design:${androidSupportVersion}"
+            androidDesign:      "com.android.support:design:${androidSupportVersion}",
+            androidPercent:     "com.android.support:percent:${androidSupportVersion}"
     ]
+
     presentationTestDependencies = [
             junit:              "junit:junit:${jUnitVersion}",
             mockito:            "org.mockito:mockito-core:${mockitoVersion}",

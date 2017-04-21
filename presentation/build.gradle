@@ -57,6 +57,7 @@ dependencies {
     apt presentationDependencies.daggerCompiler
     apt presentationDependencies.buuterKnifeCompiler
 
+    compile presentationDependencies.androidPercent
     compile presentationDependencies.androidDesign
     compile presentationDependencies.androidSupportv4
     compile presentationDependencies.androidCompatv7

@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/header"
+        layout="@layout/layout_translation_header" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/header"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/input_layout"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/default_padding"
+            android:layout_weight="1"
+            android:background="@drawable/border"
+            android:focusableInTouchMode="true"
+            android:padding="5dp">
+
+            <kz.kamadi.yandextranslate.ui.widgets.TranslateEditText
+                android:id="@+id/text_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/clear_image_button"
+                android:layout_alignParentTop="true"
+                android:background="@null"
+                android:descendantFocusability="beforeDescendants"
+                android:gravity="top"
+                android:hint="Type text" />
+
+            <ImageButton
+                android:id="@id/clear_image_button"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_alignParentBottom="true"
+                android:background="@null"
+                android:src="@drawable/ic_delete" />
+        </RelativeLayout>
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:padding="@dimen/default_padding"
+            android:layout_weight="1">
+
+            <RelativeLayout
+                android:id="@+id/result_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone">
+
+                <ScrollView
+                    android:id="@+id/translation_scroll_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/favourite_button"
+                    android:layout_toStartOf="@+id/favourite_button">
+
+                    <TextView
+                        android:id="@+id/translation_text_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="5dp"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:textColor="@color/toolbar_title"
+                        android:textSize="@dimen/dictionary_title" />
+                </ScrollView>
+
+
+                <kz.kamadi.yandextranslate.ui.widgets.DictionaryView
+                    android:id="@+id/dictionary_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignEnd="@+id/translation_scroll_view"
+                    android:layout_alignLeft="@+id/translation_scroll_view"
+                    android:layout_alignRight="@+id/translation_scroll_view"
+                    android:layout_alignStart="@+id/translation_scroll_view"
+                    android:layout_below="@+id/translation_scroll_view"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp" />
+
+                <ImageButton
+                    android:id="@+id/favourite_button"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginBottom="@dimen/default_padding"
+                    android:adjustViewBounds="true"
+                    android:background="@null"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/favourite_not_selected" />
+
+                <ImageButton
+                    android:id="@+id/share_button"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/favourite_button"
+                    android:layout_marginBottom="@dimen/default_padding"
+                    android:adjustViewBounds="true"
+                    android:background="@null"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_share" />
+
+                <ImageButton
+                    android:id="@+id/fullscreen_button"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/share_button"
+                    android:adjustViewBounds="true"
+                    android:background="@null"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_fullscreen" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/loading_layout"
+                android:layout_width="match_parent"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                android:layout_height="wrap_content">
+
+                <ProgressBar
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_centerInParent="true" />
+            </RelativeLayout>
+        </FrameLayout>
+    </LinearLayout>
+
+</RelativeLayout>
