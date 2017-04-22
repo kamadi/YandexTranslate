@@ -38,6 +38,7 @@ public class HistoryPresenter extends BasePresenter {
 
         @Override
         public void onNext(Integer integer) {
+            super.onNext(integer);
             if (view != null) {
                 if (integer>0){
                     view.onHistoriesDeleted();

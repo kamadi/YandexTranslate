@@ -10,7 +10,7 @@ public class BasePresenter implements Presenter {
 
     BaseView baseView;
 
-    private UseCase useCase0, useCase1, useCase2,useCase3;
+    private UseCase useCase0, useCase1, useCase2;
     private List<UseCase>useCases;
 
     public BasePresenter(UseCase useCase0) {
@@ -48,7 +48,6 @@ public class BasePresenter implements Presenter {
         if (this.useCase0 != null) this.useCase0.unsubscribe();
         if (this.useCase1 != null) this.useCase1.unsubscribe();
         if (this.useCase2 != null) this.useCase2.unsubscribe();
-        if (this.useCase3 != null) this.useCase3.unsubscribe();
         if (this.useCases != null) {
             for (UseCase useCase:useCases){
                 useCase.unsubscribe();
