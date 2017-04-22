@@ -38,12 +38,14 @@ import kz.kamadi.yandextranslate.ui.widgets.TranslateEditText;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
 import static kz.kamadi.yandextranslate.R.id.dictionary_view;
+import static kz.kamadi.yandextranslate.ui.language.LanguageActivity.SOURCE_LANGUAGE;
+import static kz.kamadi.yandextranslate.ui.language.LanguageActivity.TARGET_LANGUAGE;
 
 public class TranslateFragment extends BaseFragment implements TranslateView, TextWatcher, TranslateEditText.EditTextImeBackListener, View.OnTouchListener, OnPageVisibleListener {
 
     private static final int REQUEST_CODE = 5;
-
-    private final long DELAY = 1000;
+    private static final String TRANSLATION = "translation";
+    private final long DELAY = 500;
     @BindView(dictionary_view)
     DictionaryView dictionaryView;
     @BindView(R.id.translation_text_view)
@@ -76,12 +78,12 @@ public class TranslateFragment extends BaseFragment implements TranslateView, Te
     private Language sourceLanguage, targetLanguage;
     private boolean isLoading = false;
     private boolean isKeyboardOpen = true;
-    private boolean isSearchEnabled = true;
+    private boolean isSearchEnabled = false;
     private long lastEditTextTime = 0;
 
     private Handler handler = new Handler();
     private Runnable inputFinishChecker = () -> {
-        if (System.currentTimeMillis() > (lastEditTextTime + DELAY - 500)) {
+        if (System.currentTimeMillis() > (lastEditTextTime + DELAY)) {
             translate();
         }
     };
@@ -106,6 +108,13 @@ public class TranslateFragment extends BaseFragment implements TranslateView, Te
         translateEditText.addTextChangedListener(this);
         translateEditText.setOnTouchListener(this);
         initLanguages();
+        if (savedInstanceState != null) {
+            translation = savedInstanceState.getParcelable(TRANSLATION);
+            isSearchEnabled = false;
+            isKeyboardOpen = false;
+            showTranslation();
+
+        }
     }
 
     private void initLanguages() {
@@ -142,6 +151,14 @@ public class TranslateFragment extends BaseFragment implements TranslateView, Te
     }
 
     @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (translation != null) {
+            outState.putParcelable(TRANSLATION, translation);
+        }
+    }
+
+    @Override
     public void showLoading() {
         resultLayout.setVisibility(View.GONE);
         errorLayout.setVisibility(View.GONE);
@@ -172,11 +189,19 @@ public class TranslateFragment extends BaseFragment implements TranslateView, Te
     @Override
     public void showTranslation(Translation translation) {
         this.translation = translation;
-        translationTextView.setText(translation.getTranslate().getText().get(0));
-        dictionaryView.setDictionary(translation.getDictionary());
+        showTranslation();
         if (!isKeyboardOpen) {
             presenter.createHistory(translation);
             texts.add(translation.getText());
+        }
+    }
+
+    private void showTranslation() {
+        resultLayout.setVisibility(View.VISIBLE);
+        translationTextView.setText(translation.getTranslate().getText().get(0));
+        dictionaryView.setDictionary(translation.getDictionary());
+        if (translation.getHistory() != null) {
+            favouriteButton.setImageResource(translation.getHistory().isFavourite() ? R.drawable.favourite_selected : R.drawable.favourite_not_selected);
         }
     }
 
@@ -192,10 +217,12 @@ public class TranslateFragment extends BaseFragment implements TranslateView, Te
         this.targetLanguage = target;
         primaryLangTextView.setText(sourceLanguage.getName());
         translationLangTextView.setText(targetLanguage.getName());
+        languageManager.saveTargetLanguage(targetLanguage);
+        languageManager.saveSourceLanguage(sourceLanguage);
     }
 
     @OnClick(R.id.clear_image_button)
-    void onCleatButtonClick() {
+    void onClearButtonClick() {
         isSearchEnabled = true;
         translateEditText.setText("");
         dictionaryView.clearView();
@@ -213,7 +240,7 @@ public class TranslateFragment extends BaseFragment implements TranslateView, Te
     }
 
     @OnClick(R.id.retry_button)
-    void onRetryButtonClick(){
+    void onRetryButtonClick() {
         isKeyboardOpen = false;
         errorLayout.setVisibility(View.GONE);
         translate();
@@ -291,8 +318,8 @@ public class TranslateFragment extends BaseFragment implements TranslateView, Te
     private void start(int type) {
         Intent intent = new Intent(context, LanguageActivity.class);
         intent.putExtra(LanguageActivity.TYPE, type);
-        intent.putExtra(LanguageActivity.SOURCE_LANGUAGE, sourceLanguage);
-        intent.putExtra(LanguageActivity.TARGET_LANGUAGE, targetLanguage);
+        intent.putExtra(SOURCE_LANGUAGE, sourceLanguage);
+        intent.putExtra(TARGET_LANGUAGE, targetLanguage);
         startActivityForResult(intent, REQUEST_CODE);
     }
 
@@ -337,10 +364,7 @@ public class TranslateFragment extends BaseFragment implements TranslateView, Te
         translation = new Translation(history);
         translateEditText.setText(history.getText());
         texts.add(history.getText());
-        translationTextView.setText(translation.getTranslate().getText().get(0));
-        dictionaryView.setDictionary(translation.getDictionary());
-        resultLayout.setVisibility(View.VISIBLE);
-        favouriteButton.setImageResource(history.isFavourite() ? R.drawable.favourite_selected : R.drawable.favourite_not_selected);
+        showTranslation();
         String[] languages = history.getLanguage().split("-");
         presenter.getLanguages(languages[0], languages[1]);
     }

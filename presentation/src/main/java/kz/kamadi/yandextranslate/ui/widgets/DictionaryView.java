@@ -50,7 +50,7 @@ public class DictionaryView extends ScrollView {
         linearLayout.removeAllViews();
         fullScroll(ScrollView.FOCUS_UP);
         CharSequence charSequence = null;
-        if (dictionary.getDef() != null) {
+        if (dictionary!=null && dictionary.getDef() != null) {
             for (Dictionary.Def def : dictionary.getDef()) {
                 if (def.getTr() != null) {
                     if (charSequence == null || !def.getText().equalsIgnoreCase(charSequence.toString())) {
