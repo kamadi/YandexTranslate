@@ -6,6 +6,14 @@ public class TranslateEntity {
     private List<String> text;
     private String lang;
 
+    public TranslateEntity() {
+    }
+
+    public TranslateEntity(List<String> text, String lang) {
+        this.text = text;
+        this.lang = lang;
+    }
+
     public String getLang() {
         return lang;
     }

@@ -4,6 +4,13 @@ import java.util.List;
 
 public class DictionaryEntity {
 
+    public DictionaryEntity() {
+    }
+
+    public DictionaryEntity(String content) {
+        this.content = content;
+    }
+
     private List<Def> def;
 
     private String content;

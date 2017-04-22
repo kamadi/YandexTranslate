@@ -63,7 +63,7 @@ public class HistoryItemPresenter extends BasePresenter {
     }
 
     public void search(String text, boolean isFavourite) {
-        searchHistoriesUseCase.setParam(text, isFavourite);
+        searchHistoriesUseCase.setParams(text, isFavourite);
         searchHistoriesUseCase.execute(new HistoriesGetSubscriber());
     }
 

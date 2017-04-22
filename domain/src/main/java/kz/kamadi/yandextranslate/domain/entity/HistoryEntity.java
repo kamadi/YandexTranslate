@@ -9,6 +9,22 @@ public class HistoryEntity {
     private TranslateEntity translateEntity;
     private DictionaryEntity dictionaryEntity;
 
+    public HistoryEntity() {
+    }
+
+    public HistoryEntity(Integer id, String text) {
+        this.id = id;
+        this.text = text;
+    }
+
+    public HistoryEntity(Integer id, String text, boolean isFavourite, int status, String language) {
+        this.id = id;
+        this.text = text;
+        this.isFavourite = isFavourite;
+        this.status = status;
+        this.language = language;
+    }
+
     public Integer getId() {
         return id;
     }

@@ -24,7 +24,7 @@ public class SearchHistoriesUseCase extends UseCase<List<HistoryEntity>> {
         this.repository = repository;
     }
 
-    public void setParam(String text,boolean isFavourite) {
+    public void setParams(String text, boolean isFavourite) {
         this.text = text;
         this.isFavourite = isFavourite;
     }
