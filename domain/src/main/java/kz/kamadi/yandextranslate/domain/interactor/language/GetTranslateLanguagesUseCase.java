@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import io.reactivex.Observable;
 import io.reactivex.annotations.NonNull;
@@ -23,7 +24,7 @@ public class GetTranslateLanguagesUseCase extends UseCase<Map<String, LanguageEn
     private String sourceLanguageCode, targetLanguageCode;
 
     @Inject
-    public GetTranslateLanguagesUseCase(ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread, LanguageRepository repository) {
+    public GetTranslateLanguagesUseCase(ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread, @Named("local")LanguageRepository repository) {
         super(threadExecutor, postExecutionThread);
         this.repository = repository;
     }

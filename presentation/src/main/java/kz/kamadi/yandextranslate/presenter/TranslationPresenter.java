@@ -1,18 +1,24 @@
 package kz.kamadi.yandextranslate.presenter;
 
 
+import java.util.Arrays;
+import java.util.Map;
+
 import javax.inject.Inject;
 
 import kz.kamadi.yandextranslate.data.database.history.HistoryScheme;
 import kz.kamadi.yandextranslate.data.entity.History;
 import kz.kamadi.yandextranslate.data.entity.Translation;
 import kz.kamadi.yandextranslate.data.entity.mapper.data.HistoryDataMapper;
+import kz.kamadi.yandextranslate.data.entity.mapper.data.LanguageDataMapper;
 import kz.kamadi.yandextranslate.data.entity.mapper.data.TranslationDataMapper;
 import kz.kamadi.yandextranslate.data.entity.mapper.entity.HistoryEntityMapper;
 import kz.kamadi.yandextranslate.domain.entity.HistoryEntity;
+import kz.kamadi.yandextranslate.domain.entity.LanguageEntity;
 import kz.kamadi.yandextranslate.domain.entity.TranslationEntity;
 import kz.kamadi.yandextranslate.domain.interactor.history.CreateHistoryUseCase;
 import kz.kamadi.yandextranslate.domain.interactor.history.UpdateHistoryUseCase;
+import kz.kamadi.yandextranslate.domain.interactor.language.GetTranslateLanguagesUseCase;
 import kz.kamadi.yandextranslate.domain.interactor.translate.GetTranslationUseCase;
 import kz.kamadi.yandextranslate.ui.base.BaseView;
 import kz.kamadi.yandextranslate.ui.translate.TranslateView;
@@ -23,20 +29,25 @@ public class TranslationPresenter extends BasePresenter {
     private GetTranslationUseCase getTranslationUseCase;
     private CreateHistoryUseCase createHistoryUseCase;
     private UpdateHistoryUseCase updateHistoryUseCase;
+    private GetTranslateLanguagesUseCase getTranslateLanguagesUseCase;
     private TranslationDataMapper translationDataMapper;
     private HistoryEntityMapper historyEntityMapper;
     private HistoryDataMapper historyDataMapper;
+    private LanguageDataMapper languageDataMapper;
 
     @Inject
     public TranslationPresenter(GetTranslationUseCase getTranslationUseCase, CreateHistoryUseCase createHistoryUseCase, UpdateHistoryUseCase updateHistoryUseCase,
-                                TranslationDataMapper translationDataMapper, HistoryEntityMapper historyEntityMapper, HistoryDataMapper historyDataMapper) {
-        super(getTranslationUseCase);
+                                GetTranslateLanguagesUseCase getTranslateLanguagesUseCase, TranslationDataMapper translationDataMapper, HistoryEntityMapper historyEntityMapper,
+                                HistoryDataMapper historyDataMapper, LanguageDataMapper languageDataMapper) {
+        super(Arrays.asList(getTranslationUseCase,createHistoryUseCase,updateHistoryUseCase,getTranslateLanguagesUseCase));
         this.getTranslationUseCase = getTranslationUseCase;
         this.createHistoryUseCase = createHistoryUseCase;
         this.updateHistoryUseCase = updateHistoryUseCase;
+        this.getTranslateLanguagesUseCase = getTranslateLanguagesUseCase;
         this.translationDataMapper = translationDataMapper;
         this.historyEntityMapper = historyEntityMapper;
         this.historyDataMapper = historyDataMapper;
+        this.languageDataMapper = languageDataMapper;
     }
 
     @Override
@@ -76,6 +87,11 @@ public class TranslationPresenter extends BasePresenter {
     public void updateHistory(History history) {
         updateHistoryUseCase.setParam(historyEntityMapper.transform(history));
         updateHistoryUseCase.execute(new HistoryUpdateSubscriber());
+    }
+
+    public void getLanguages(String sourceLanguageCode, String targetLanguageCode ){
+        getTranslateLanguagesUseCase.setParams(sourceLanguageCode,targetLanguageCode);
+        getTranslateLanguagesUseCase.execute(new LanguagesGetSubscriber());
     }
 
     protected class TranslateGetSubscriber extends BaseSubscriber<TranslationEntity> {
@@ -128,6 +144,27 @@ public class TranslationPresenter extends BasePresenter {
         @Override
         public void onNext(Boolean aBoolean) {
 
+        }
+
+        @Override
+        public void onError(Throwable e) {
+
+        }
+    }
+
+    protected class LanguagesGetSubscriber extends BaseSubscriber<Map<String,LanguageEntity>>{
+
+        @Override
+        public void onComplete() {
+
+        }
+
+        @Override
+        public void onNext(Map<String, LanguageEntity> map) {
+            if (view!=null){
+                view.onLanguagesGet(languageDataMapper.transform(map.get(GetTranslateLanguagesUseCase.SOURCE)),
+                                    languageDataMapper.transform(map.get(GetTranslateLanguagesUseCase.TARGET)));
+            }
         }
 
         @Override

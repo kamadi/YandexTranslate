@@ -1,5 +1,7 @@
 package kz.kamadi.yandextranslate.presenter;
 
+import java.util.List;
+
 import io.reactivex.observers.DisposableObserver;
 import kz.kamadi.yandextranslate.domain.interactor.UseCase;
 import kz.kamadi.yandextranslate.ui.base.BaseView;
@@ -9,6 +11,7 @@ public class BasePresenter implements Presenter {
     BaseView baseView;
 
     private UseCase useCase0, useCase1, useCase2,useCase3;
+    private List<UseCase>useCases;
 
     public BasePresenter(UseCase useCase0) {
         this.useCase0 = useCase0;
@@ -25,11 +28,9 @@ public class BasePresenter implements Presenter {
         this.useCase2 = useCase2;
     }
 
-    public BasePresenter(UseCase useCase0, UseCase useCase1, UseCase useCase2, UseCase useCase3) {
-        this.useCase0 = useCase0;
-        this.useCase1 = useCase1;
-        this.useCase2 = useCase2;
-        this.useCase3 = useCase3;
+
+    public BasePresenter(List<UseCase> useCases) {
+        this.useCases = useCases;
     }
 
     @Override
@@ -48,6 +49,11 @@ public class BasePresenter implements Presenter {
         if (this.useCase1 != null) this.useCase1.unsubscribe();
         if (this.useCase2 != null) this.useCase2.unsubscribe();
         if (this.useCase3 != null) this.useCase3.unsubscribe();
+        if (this.useCases != null) {
+            for (UseCase useCase:useCases){
+                useCase.unsubscribe();
+            }
+        }
     }
 
     public void showLoader() {

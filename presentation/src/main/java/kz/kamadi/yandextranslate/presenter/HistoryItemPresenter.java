@@ -1,5 +1,6 @@
 package kz.kamadi.yandextranslate.presenter;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -30,7 +31,7 @@ public class HistoryItemPresenter extends BasePresenter {
                                 UpdateHistoryUseCase updateHistoryUseCase,
                                 SearchHistoriesUseCase searchHistoriesUseCase,
                                 DeleteHistoryUseCase deleteHistoryUseCase, HistoryDataMapper historyDataMapper, HistoryEntityMapper historyEntityMapper) {
-        super(getHistoriesUseCase, updateHistoryUseCase, getHistoriesUseCase, deleteHistoryUseCase);
+        super(Arrays.asList(getHistoriesUseCase, updateHistoryUseCase, getHistoriesUseCase, deleteHistoryUseCase));
         this.getHistoriesUseCase = getHistoriesUseCase;
         this.updateHistoryUseCase = updateHistoryUseCase;
         this.searchHistoriesUseCase = searchHistoriesUseCase;

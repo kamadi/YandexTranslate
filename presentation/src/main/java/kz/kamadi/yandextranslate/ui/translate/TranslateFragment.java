@@ -38,7 +38,7 @@ import kz.kamadi.yandextranslate.ui.widgets.TranslateEditText;
 import static android.content.Context.INPUT_METHOD_SERVICE;
 import static kz.kamadi.yandextranslate.R.id.dictionary_view;
 
-public class TranslateFragment extends BaseFragment implements TranslateView, TextWatcher, TranslateEditText.EditTextImeBackListener, View.OnTouchListener,OnPageVisibleListener {
+public class TranslateFragment extends BaseFragment implements TranslateView, TextWatcher, TranslateEditText.EditTextImeBackListener, View.OnTouchListener, OnPageVisibleListener {
 
     private static final int REQUEST_CODE = 5;
 
@@ -177,6 +177,14 @@ public class TranslateFragment extends BaseFragment implements TranslateView, Te
     public void onHistoryCreated(History history) {
         Log.e("history", history.getId() + "");
         translation.setHistory(history);
+    }
+
+    @Override
+    public void onLanguagesGet(Language source, Language target) {
+        this.sourceLanguage = source;
+        this.targetLanguage = target;
+        primaryLangTextView.setText(sourceLanguage.getName());
+        translationLangTextView.setText(targetLanguage.getName());
     }
 
     @OnClick(R.id.clear_image_button)
@@ -318,6 +326,8 @@ public class TranslateFragment extends BaseFragment implements TranslateView, Te
         dictionaryView.setDictionary(translation.getDictionary());
         resultLayout.setVisibility(View.VISIBLE);
         favouriteButton.setImageResource(history.isFavourite() ? R.drawable.favourite_selected : R.drawable.favourite_not_selected);
+        String[] languages = history.getLanguage().split("-");
+        presenter.getLanguages(languages[0], languages[1]);
     }
 
     @Override
