@@ -35,9 +35,25 @@ public abstract class BaseFragment extends Fragment{
     }
 
     @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
-        unbinder.unbind();
+
+    }
+
+    public void rebind(View view){
+        unbinder = ButterKnife.bind(this, view);
     }
 
     public ActivityComponent getActivityComponent() {

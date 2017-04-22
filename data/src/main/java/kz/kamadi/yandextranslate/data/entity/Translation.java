@@ -7,6 +7,17 @@ public class Translation {
     private Translate translate;
     private History history;
 
+    public Translation() {
+    }
+
+    public Translation(History history) {
+        this.history = history;
+        this.translate = history.getTranslate();
+        this.dictionary = history.getDictionary();
+        this.text = history.getText();
+        this.language = history.getLanguage();
+    }
+
     public String getText() {
         return text;
     }

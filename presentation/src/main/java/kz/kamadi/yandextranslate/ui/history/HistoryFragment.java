@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 
@@ -21,6 +22,9 @@ import kz.kamadi.yandextranslate.ui.base.BaseFragment;
 import kz.kamadi.yandextranslate.ui.listener.OnPageVisibleListener;
 
 public class HistoryFragment extends BaseFragment implements HistoryView, ViewPager.OnPageChangeListener, OnPageVisibleListener, DeleteAllButtonVisibilityListener {
+
+    public static final String TAG = HistoryFragment.class.getSimpleName();
+
     @BindView(R.id.tab_layout)
     TabLayout tabLayout;
     @BindView(R.id.view_pager)
@@ -78,6 +82,7 @@ public class HistoryFragment extends BaseFragment implements HistoryView, ViewPa
 
     @Override
     public void onPageSelected(int position) {
+        Log.e(TAG,"onPageSelected");
         ((OnPageVisibleListener) pagerAdapter.instantiateItem(viewPager, position)).onPageVisible();
         int otherPosition = 0;
         if (position == 0) {
@@ -93,6 +98,7 @@ public class HistoryFragment extends BaseFragment implements HistoryView, ViewPa
 
     @Override
     public void onPageVisible() {
+        Log.e(TAG,"onPageVisible");
         ((OnPageVisibleListener) pagerAdapter.instantiateItem(viewPager, viewPager.getCurrentItem())).onPageVisible();
     }
 
@@ -141,7 +147,8 @@ public class HistoryFragment extends BaseFragment implements HistoryView, ViewPa
 
     @Override
     public void onHistoriesDeleted() {
-        fragments.get(viewPager.getCurrentItem()).onPageVisible();
+        Log.e(TAG,"onHistoriesDeleted");
+        ((OnPageVisibleListener) pagerAdapter.instantiateItem(viewPager, viewPager.getCurrentItem())).onPageVisible();
     }
 
     @Override

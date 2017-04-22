@@ -13,13 +13,15 @@ import butterknife.BindColor;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import kz.kamadi.yandextranslate.R;
+import kz.kamadi.yandextranslate.data.entity.History;
 import kz.kamadi.yandextranslate.ui.history.HistoryFragment;
+import kz.kamadi.yandextranslate.ui.listener.OnHistoryItemClickListener;
 import kz.kamadi.yandextranslate.ui.listener.OnPageVisibleListener;
 import kz.kamadi.yandextranslate.ui.settings.SettingsFragment;
 import kz.kamadi.yandextranslate.ui.translate.TranslateFragment;
 import kz.kamadi.yandextranslate.ui.widgets.CustomViewPager;
 
-public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener, ViewPager.OnPageChangeListener {
+public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener, ViewPager.OnPageChangeListener,OnHistoryItemClickListener {
 
     @BindView(R.id.tab_layout)
     TabLayout tabLayout;
@@ -32,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
     CustomViewPager customViewPager;
 
     private MainTabPagerAdapter mainTabPagerAdapter;
+    private TranslateFragment translateFragment;
 
     public static void start(Context context) {
         context.startActivity(new Intent(context,MainActivity.class));
@@ -42,7 +45,8 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        mainTabPagerAdapter = new MainTabPagerAdapter(getSupportFragmentManager(), new TranslateFragment(), new HistoryFragment(), new SettingsFragment());
+        translateFragment = new TranslateFragment();
+        mainTabPagerAdapter = new MainTabPagerAdapter(getSupportFragmentManager(), translateFragment, new HistoryFragment(), new SettingsFragment());
         customViewPager.setAdapter(mainTabPagerAdapter);
         customViewPager.addOnPageChangeListener(this);
         tabLayout.setupWithViewPager(customViewPager);
@@ -101,5 +105,12 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
     @Override
     public void onPageScrollStateChanged(int state) {
 
+    }
+
+    @Override
+    public void onHistoryItemClick(History history) {
+        TranslateFragment fragment = (TranslateFragment) mainTabPagerAdapter.instantiateItem(customViewPager, 0);
+        customViewPager.setCurrentItem(0,true);
+        fragment.setHistory(history);
     }
 }

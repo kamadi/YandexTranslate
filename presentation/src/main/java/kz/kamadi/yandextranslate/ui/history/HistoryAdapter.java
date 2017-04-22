@@ -54,6 +54,9 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryViewHolder> {
     }
 
     public interface OnHistoryActionListener {
+
+        void onHistoryItemClick(History history);
+
         void onHistoryUpdate(History history);
 
         void onHistoryDelete(History history, int position);

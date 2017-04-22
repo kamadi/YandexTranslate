@@ -48,6 +48,7 @@ public class DictionaryView extends ScrollView {
     public void setDictionary(Dictionary dictionary) {
         this.dictionary = dictionary;
         linearLayout.removeAllViews();
+        fullScroll(ScrollView.FOCUS_UP);
         CharSequence charSequence = null;
         if (dictionary.getDef() != null) {
             for (Dictionary.Def def : dictionary.getDef()) {

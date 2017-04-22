@@ -49,14 +49,25 @@ public class HistoryViewHolder extends RecyclerView.ViewHolder {
 
     @OnClick(R.id.favourite_button)
     void onFavouriteButtonClick() {
-        history.setFavourite(!history.isFavourite());
-        setFavourite();
-        onHistoryActionListener.onHistoryUpdate(history);
+        if (onHistoryActionListener != null) {
+            history.setFavourite(!history.isFavourite());
+            setFavourite();
+            onHistoryActionListener.onHistoryUpdate(history);
+        }
+    }
+
+    @OnClick(R.id.container)
+    void onContainerClick() {
+     if(onHistoryActionListener!=null) {
+         onHistoryActionListener.onHistoryItemClick(history);
+     }
     }
 
     @OnLongClick(R.id.container)
-    boolean onContainerLongClick(){
-        onHistoryActionListener.onHistoryDelete(history,getAdapterPosition());
+    boolean onContainerLongClick() {
+        if (onHistoryActionListener!=null){
+            onHistoryActionListener.onHistoryDelete(history, getAdapterPosition());
+        }
         return false;
     }
 

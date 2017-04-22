@@ -11,8 +11,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -33,6 +36,7 @@ import kz.kamadi.yandextranslate.data.entity.History;
 import kz.kamadi.yandextranslate.presenter.HistoryItemPresenter;
 import kz.kamadi.yandextranslate.ui.base.BaseFragment;
 import kz.kamadi.yandextranslate.ui.listener.EndlessRecyclerViewScrollListener;
+import kz.kamadi.yandextranslate.ui.listener.OnHistoryItemClickListener;
 import kz.kamadi.yandextranslate.ui.listener.OnLoadMoreListener;
 import kz.kamadi.yandextranslate.ui.listener.OnPageVisibleListener;
 import kz.kamadi.yandextranslate.ui.widgets.TranslateEditText;
@@ -41,6 +45,7 @@ import static android.content.Context.INPUT_METHOD_SERVICE;
 
 public class HistoryItemFragment extends BaseFragment implements HistoryItemView, OnPageVisibleListener, OnLoadMoreListener, HistoryAdapter.OnHistoryActionListener, TextWatcher, TranslateEditText.EditTextImeBackListener, View.OnTouchListener {
     private static final String FAVOURITE = "kz.kamadi.yandextranslate.ui.history.HistoryItemFragment.FAVOURITE";
+    private final int LIMIT = 7;
     @BindView(R.id.container)
     RelativeLayout container;
     @BindView(R.id.recycler_view)
@@ -63,11 +68,9 @@ public class HistoryItemFragment extends BaseFragment implements HistoryItemView
     Drawable borderBottomActive;
     @Inject
     HistoryItemPresenter presenter;
-
-    private List<History> histories = new ArrayList<>();
+    private List<History> histories;
     private HistoryAdapter adapter;
     private int offset = 0;
-    private final int LIMIT = 7;
     private boolean isFavourite;
     private Handler handler = new Handler();
     private boolean isKeyboardOpen = false;
@@ -87,7 +90,6 @@ public class HistoryItemFragment extends BaseFragment implements HistoryItemView
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActivityComponent().inject(this);
         isFavourite = getArguments().getBoolean(FAVOURITE);
     }
 
@@ -96,12 +98,20 @@ public class HistoryItemFragment extends BaseFragment implements HistoryItemView
         return R.layout.fragment_history_item;
     }
 
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        getActivityComponent().inject(this);
+        return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if (getParentFragment() instanceof DeleteAllButtonVisibilityListener) {
             deleteAllButtonVisibilityListener = (DeleteAllButtonVisibilityListener) getParentFragment();
         }
+        histories = new ArrayList<>();
         initSearchEditText();
         initRecyclerView();
     }
@@ -202,7 +212,8 @@ public class HistoryItemFragment extends BaseFragment implements HistoryItemView
 
     @Override
     public void onPageVisible() {
-        presenter.attachView(this);
+//        presenter.attachView(this);
+        Log.e("getHistories", "onPageVisible");
         getHistories();
     }
 
@@ -216,6 +227,13 @@ public class HistoryItemFragment extends BaseFragment implements HistoryItemView
         searchEditText.setText("");
         clearImageButton.setVisibility(View.GONE);
         changeSearchLayout(false);
+    }
+
+    @Override
+    public void onHistoryItemClick(History history) {
+        if (getActivity() instanceof OnHistoryItemClickListener) {
+            ((OnHistoryItemClickListener) getActivity()).onHistoryItemClick(history);
+        }
     }
 
     @Override
@@ -251,6 +269,7 @@ public class HistoryItemFragment extends BaseFragment implements HistoryItemView
             presenter.search(s.toString(), isFavourite);
         } else if (isSearching) {
             scrollListener.setEnabled(true);
+            Log.e("getHistories", "onTextChanged");
             getHistories();
         }
     }
@@ -279,6 +298,7 @@ public class HistoryItemFragment extends BaseFragment implements HistoryItemView
     public void onClearButtonClick() {
         searchEditText.setText("");
         isSearching = true;
+        Log.e("getHistories", "onClearButtonClick");
         getHistories();
         if (!isKeyboardOpen) {
             handler.post(() -> {
@@ -300,9 +320,11 @@ public class HistoryItemFragment extends BaseFragment implements HistoryItemView
     }
 
     private void getHistories() {
-        histories.clear();
+        histories = new ArrayList<>();
         offset = 0;
-        adapter.setHistories(new ArrayList<>());
+        if (adapter != null) {
+            adapter.setHistories(new ArrayList<>());
+        }
         presenter.getHistories(offset, LIMIT, isFavourite);
     }
 

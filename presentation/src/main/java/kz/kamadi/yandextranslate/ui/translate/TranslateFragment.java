@@ -31,17 +31,19 @@ import kz.kamadi.yandextranslate.data.manager.LanguageManager;
 import kz.kamadi.yandextranslate.presenter.TranslationPresenter;
 import kz.kamadi.yandextranslate.ui.base.BaseFragment;
 import kz.kamadi.yandextranslate.ui.language.LanguageActivity;
+import kz.kamadi.yandextranslate.ui.listener.OnPageVisibleListener;
 import kz.kamadi.yandextranslate.ui.widgets.DictionaryView;
 import kz.kamadi.yandextranslate.ui.widgets.TranslateEditText;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
+import static kz.kamadi.yandextranslate.R.id.dictionary_view;
 
-public class TranslateFragment extends BaseFragment implements TranslateView, TextWatcher, TranslateEditText.EditTextImeBackListener, View.OnTouchListener {
+public class TranslateFragment extends BaseFragment implements TranslateView, TextWatcher, TranslateEditText.EditTextImeBackListener, View.OnTouchListener,OnPageVisibleListener {
 
     private static final int REQUEST_CODE = 5;
 
     private final long DELAY = 1000;
-    @BindView(R.id.dictionary_view)
+    @BindView(dictionary_view)
     DictionaryView dictionaryView;
     @BindView(R.id.translation_text_view)
     TextView translationTextView;
@@ -71,6 +73,7 @@ public class TranslateFragment extends BaseFragment implements TranslateView, Te
     private Language sourceLanguage, targetLanguage;
     private boolean isLoading = false;
     private boolean isKeyboardOpen = true;
+    private boolean isSearchEnabled = true;
     private long lastEditTextTime = 0;
 
     private Handler handler = new Handler();
@@ -178,6 +181,7 @@ public class TranslateFragment extends BaseFragment implements TranslateView, Te
 
     @OnClick(R.id.clear_image_button)
     void onCleatButtonClick() {
+        isSearchEnabled = true;
         translateEditText.setText("");
         dictionaryView.clearView();
         translationTextView.setText("");
@@ -205,7 +209,7 @@ public class TranslateFragment extends BaseFragment implements TranslateView, Te
 
     @Override
     public void afterTextChanged(Editable s) {
-        if (s.length() > 0) {
+        if (s.length() > 0 && isSearchEnabled) {
             lastEditTextTime = System.currentTimeMillis();
             handler.postDelayed(inputFinishChecker, DELAY);
         }
@@ -221,6 +225,7 @@ public class TranslateFragment extends BaseFragment implements TranslateView, Te
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
+        isSearchEnabled = true;
         changeSearchLayout(true);
         return false;
     }
@@ -282,11 +287,7 @@ public class TranslateFragment extends BaseFragment implements TranslateView, Te
         if (translation != null && translation.getHistory() != null) {
             History history = translation.getHistory();
             history.setFavourite(!history.isFavourite());
-            if (history.isFavourite()) {
-                favouriteButton.setImageResource(R.drawable.favourite_selected);
-            } else {
-                favouriteButton.setImageResource(R.drawable.favourite_not_selected);
-            }
+            favouriteButton.setImageResource(history.isFavourite() ? R.drawable.favourite_selected : R.drawable.favourite_not_selected);
             presenter.updateHistory(history);
         }
     }
@@ -305,7 +306,27 @@ public class TranslateFragment extends BaseFragment implements TranslateView, Te
     @OnClick(R.id.fullscreen_button)
     void onFullscreenButtonClick() {
         if (translation != null) {
-            TranslationActivity.start(getContext(),translation.getTranslate().getText().get(0));
+            TranslationActivity.start(getContext(), translation.getTranslate().getText().get(0));
         }
+    }
+
+    public void setHistory(History history) {
+        isSearchEnabled = false;
+        translation = new Translation(history);
+        translateEditText.setText(history.getText());
+        translationTextView.setText(translation.getTranslate().getText().get(0));
+        dictionaryView.setDictionary(translation.getDictionary());
+        resultLayout.setVisibility(View.VISIBLE);
+        favouriteButton.setImageResource(history.isFavourite() ? R.drawable.favourite_selected : R.drawable.favourite_not_selected);
+    }
+
+    @Override
+    public void onPageVisible() {
+
+    }
+
+    @Override
+    public void onPageHidden() {
+
     }
 }
