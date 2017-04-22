@@ -37,4 +37,9 @@ public class LanguageRemoteDataRepository implements LanguageRepository {
     public Observable<Boolean> create(List<LanguageEntity> entities) {
         throw new UnsupportedOperationException("not supported");
     }
+
+    @Override
+    public Observable<LanguageEntity> getLanguageEntity(String code) {
+        throw new UnsupportedOperationException("not supported");
+    }
 }

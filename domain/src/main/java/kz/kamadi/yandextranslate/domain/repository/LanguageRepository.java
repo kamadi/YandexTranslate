@@ -11,4 +11,5 @@ public interface LanguageRepository {
 
     Observable<Boolean> create(List<LanguageEntity> entities);
 
+    Observable<LanguageEntity> getLanguageEntity(String code);
 }

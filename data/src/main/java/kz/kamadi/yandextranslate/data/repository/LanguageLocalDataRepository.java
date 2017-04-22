@@ -31,6 +31,11 @@ public class LanguageLocalDataRepository implements LanguageRepository {
 
     @Override
     public Observable<Boolean> create(List<LanguageEntity> entities) {
-        return Observable.fromCallable(()-> languageDao.create(languageDataMapper.transform(entities)));
+        return Observable.fromCallable(() -> languageDao.create(languageDataMapper.transform(entities)));
+    }
+
+    @Override
+    public Observable<LanguageEntity> getLanguageEntity(String code) {
+        return Observable.fromCallable(() -> languageEntityMapper.transform(languageDao.getLanguageByCode(code)));
     }
 }

@@ -19,6 +19,7 @@ import static junit.framework.Assert.assertTrue;
 @RunWith(AndroidJUnit4.class)
 public class LanguageDaoTest {
 
+    List<Language> fakeLanguages = Arrays.asList(new Language("af", "Африкаанс"), new Language("am", "Амхарский"), new Language("ar", "Арабский"));
     private LanguageDaoImpl dao;
     private TestDatabase testDatabase;
 
@@ -29,19 +30,33 @@ public class LanguageDaoTest {
     }
 
     @Test
-    public void testDao(){
+    public void testDao() {
         dao.deleteAll();
 
-        List<Language>fakeLanguages = Arrays.asList(new Language("af","Африкаанс"),new Language("am","Амхарский"),new Language("ar","Арабский"));
+        assertTrue(dao.create(fakeLanguages));
 
-        assertTrue(dao.create(fakeLanguages));;
+        List<Language> languages = dao.getLanguages();
 
-        List<Language>languages = dao.getLanguages();
+        assertEquals(languages.size(), fakeLanguages.size());
 
-        assertEquals(languages.size(),fakeLanguages.size());
+        assertEquals(languages.get(0).getCode(), fakeLanguages.get(0).getCode());
 
-        assertEquals(languages.get(0).getCode(),fakeLanguages.get(0).getCode());
+        assertEquals(languages.get(1).getName(), fakeLanguages.get(1).getName());
+    }
 
-        assertEquals(languages.get(1).getName(),fakeLanguages.get(1).getName());
+    @Test
+    public void testGetByCode() {
+        dao.deleteAll();
+
+        assertTrue(dao.create(fakeLanguages));
+
+        Language fakeLanguage = fakeLanguages.get(0);
+
+        Language language = dao.getLanguageByCode(fakeLanguage.getCode());
+
+        assertEquals(language.getCode(), fakeLanguage.getCode());
+
+        assertEquals(language.getName(), fakeLanguage.getName());
+
     }
 }

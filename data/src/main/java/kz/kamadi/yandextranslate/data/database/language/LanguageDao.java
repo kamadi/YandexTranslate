@@ -9,4 +9,6 @@ public interface LanguageDao {
     boolean create(List<Language> languages);
 
     List<Language> getLanguages();
+
+    Language getLanguageByCode(String code);
 }

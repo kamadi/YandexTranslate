@@ -81,6 +81,24 @@ public class LanguageDaoImpl extends Dao implements LanguageDao {
         return languages;
     }
 
+    @Override
+    public Language getLanguageByCode(String code) {
+
+        Language language = null;
+
+        cursor = super.query(TABLE_NAME, null, COLUMN_CODE + "=?", new String[]{code}, null);
+        if (cursor != null) {
+            language = new Language();
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                language = cursorToEntity(cursor);
+                cursor.moveToNext();
+            }
+            cursor.close();
+        }
+        return language;
+    }
+
     public boolean deleteAll() {
         try {
             return super.delete(TABLE_NAME, null, null) > 0;
