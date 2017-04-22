@@ -135,4 +135,43 @@
             android:layout_height="50dp"
             android:layout_centerInParent="true" />
     </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/error_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/input_layout"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/default_padding"
+            android:gravity="center_horizontal"
+            android:text="@string/connection_error"
+            android:textColor="@color/background_button"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/default_padding"
+            android:gravity="center_horizontal"
+            android:text="@string/connection_error_message"
+            android:textColor="@color/background_button" />
+
+        <Button
+            android:id="@+id/retry_button"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_gravity="center_horizontal"
+            android:background="#1e000000"
+            android:text="@string/retry"
+            android:textColor="@color/toolbar_title"
+            android:textSize="12sp"
+            android:textStyle="normal" />
+
+    </LinearLayout>
 </RelativeLayout>

@@ -12,6 +12,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -53,6 +54,8 @@ public class TranslateFragment extends BaseFragment implements TranslateView, Te
     RelativeLayout loadingLayout;
     @BindView(R.id.input_layout)
     RelativeLayout inputLayout;
+    @BindView(R.id.error_layout)
+    LinearLayout errorLayout;
     @BindView(R.id.text_edit_text)
     TranslateEditText translateEditText;
     @BindView(R.id.source_lang_text_view)
@@ -141,6 +144,7 @@ public class TranslateFragment extends BaseFragment implements TranslateView, Te
     @Override
     public void showLoading() {
         resultLayout.setVisibility(View.GONE);
+        errorLayout.setVisibility(View.GONE);
         loadingLayout.setVisibility(View.VISIBLE);
         isLoading = true;
     }
@@ -159,7 +163,10 @@ public class TranslateFragment extends BaseFragment implements TranslateView, Te
 
     @Override
     public void handleError(Throwable error) {
-
+        error.printStackTrace();
+        errorLayout.setVisibility(View.VISIBLE);
+        loadingLayout.setVisibility(View.GONE);
+        resultLayout.setVisibility(View.GONE);
     }
 
     @Override
@@ -203,6 +210,13 @@ public class TranslateFragment extends BaseFragment implements TranslateView, Te
             });
         }
         changeSearchLayout(true);
+    }
+
+    @OnClick(R.id.retry_button)
+    void onRetryButtonClick(){
+        isKeyboardOpen = false;
+        errorLayout.setVisibility(View.GONE);
+        translate();
     }
 
     @Override
@@ -322,6 +336,7 @@ public class TranslateFragment extends BaseFragment implements TranslateView, Te
         isSearchEnabled = false;
         translation = new Translation(history);
         translateEditText.setText(history.getText());
+        texts.add(history.getText());
         translationTextView.setText(translation.getTranslate().getText().get(0));
         dictionaryView.setDictionary(translation.getDictionary());
         resultLayout.setVisibility(View.VISIBLE);

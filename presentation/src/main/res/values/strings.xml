@@ -11,6 +11,9 @@
     <string name="history_error_message">No translations in History</string>
     <string name="favourites_error_message">No translations in Favourites</string>
     <string name="search_not_found_message">No matches were found</string>
+    <string name="connection_error">Connection error</string>
+    <string name="connection_error_message">Please check your internet connection and try again.</string>
+    <string name="retry">Retry</string>
     <string-array name="history_tabs">
         <item>History</item>
         <item>Favourites</item>
