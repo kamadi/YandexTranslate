@@ -7,15 +7,12 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 
 import dagger.Component;
-import kz.kamadi.yandextranslate.data.network.DictionaryApi;
-import kz.kamadi.yandextranslate.data.network.TranslateApi;
 import kz.kamadi.yandextranslate.dependency.module.ApplicationModule;
 import kz.kamadi.yandextranslate.dependency.module.DataModule;
 import kz.kamadi.yandextranslate.dependency.module.NetworkModule;
 import kz.kamadi.yandextranslate.domain.executor.PostExecutionThread;
 import kz.kamadi.yandextranslate.domain.executor.ThreadExecutor;
 import kz.kamadi.yandextranslate.domain.repository.DictionaryRepository;
-import kz.kamadi.yandextranslate.domain.repository.FavouriteRepository;
 import kz.kamadi.yandextranslate.domain.repository.HistoryRepository;
 import kz.kamadi.yandextranslate.domain.repository.LanguageRepository;
 import kz.kamadi.yandextranslate.domain.repository.TranslateRepository;
@@ -36,8 +33,6 @@ public interface ApplicationComponent {
 
     HistoryRepository historyRepository();
 
-    FavouriteRepository favouriteRepository();
-
     @Named("local")
     LanguageRepository localLanguageRepository();
 
@@ -45,8 +40,5 @@ public interface ApplicationComponent {
     LanguageRepository remoteLanguageRepository();
 
     DictionaryRepository dictionaryRepository();
-
-    TranslateApi translateApi();
-
-    DictionaryApi dictionaryApi();
+    
 }

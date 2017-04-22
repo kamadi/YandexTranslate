@@ -14,14 +14,12 @@ import kz.kamadi.yandextranslate.data.database.history.HistoryDaoImpl;
 import kz.kamadi.yandextranslate.data.database.language.LanguageDao;
 import kz.kamadi.yandextranslate.data.database.language.LanguageDaoImpl;
 import kz.kamadi.yandextranslate.data.repository.DictionaryDataRepository;
-import kz.kamadi.yandextranslate.data.repository.FavouriteDataRepository;
 import kz.kamadi.yandextranslate.data.repository.HistoryDataRepository;
 import kz.kamadi.yandextranslate.data.repository.LanguageLocalDataRepository;
 import kz.kamadi.yandextranslate.data.repository.LanguageRemoteDataRepository;
 import kz.kamadi.yandextranslate.data.repository.TranslateDataRepository;
 import kz.kamadi.yandextranslate.database.DatabaseHelper;
 import kz.kamadi.yandextranslate.domain.repository.DictionaryRepository;
-import kz.kamadi.yandextranslate.domain.repository.FavouriteRepository;
 import kz.kamadi.yandextranslate.domain.repository.HistoryRepository;
 import kz.kamadi.yandextranslate.domain.repository.LanguageRepository;
 import kz.kamadi.yandextranslate.domain.repository.TranslateRepository;
@@ -39,12 +37,6 @@ public class DataModule {
     @Singleton
     HistoryRepository provideHistoryRepository(HistoryDataRepository historyDataRepository) {
         return historyDataRepository;
-    }
-
-    @Provides
-    @Singleton
-    FavouriteRepository provideFavouriteRepository(FavouriteDataRepository favouriteDataRepository) {
-        return favouriteDataRepository;
     }
 
     @Named("local")
