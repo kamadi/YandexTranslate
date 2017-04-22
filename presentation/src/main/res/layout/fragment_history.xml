@@ -18,6 +18,7 @@
             android:layout_height="match_parent"
             android:layout_alignParentBottom="true"
             android:layout_centerInParent="true"
+            app:tabTextAppearance="@style/HistoryTabTextAppearance"
             app:tabIndicatorColor="@color/tab_selected" />
 
         <ImageButton

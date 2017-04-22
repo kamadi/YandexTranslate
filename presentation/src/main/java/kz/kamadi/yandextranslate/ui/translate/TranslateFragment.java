@@ -197,11 +197,13 @@ public class TranslateFragment extends BaseFragment implements TranslateView, Te
     }
 
     private void showTranslation() {
-        resultLayout.setVisibility(View.VISIBLE);
-        translationTextView.setText(translation.getTranslate().getText().get(0));
-        dictionaryView.setDictionary(translation.getDictionary());
-        if (translation.getHistory() != null) {
-            favouriteButton.setImageResource(translation.getHistory().isFavourite() ? R.drawable.favourite_selected : R.drawable.favourite_not_selected);
+        if (translation != null) {
+            resultLayout.setVisibility(View.VISIBLE);
+            translationTextView.setText(translation.getTranslate().getText().get(0));
+            dictionaryView.setDictionary(translation.getDictionary());
+            if (translation.getHistory() != null) {
+                favouriteButton.setImageResource(translation.getHistory().isFavourite() ? R.drawable.favourite_selected : R.drawable.favourite_not_selected);
+            }
         }
     }
 

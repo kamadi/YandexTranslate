@@ -114,6 +114,7 @@ public class HistoryItemFragment extends BaseFragment implements HistoryItemView
         histories = new ArrayList<>();
         initSearchEditText();
         initRecyclerView();
+        Log.e("getHistories", "onViewCreated");
     }
 
     private void initRecyclerView() {
@@ -325,7 +326,11 @@ public class HistoryItemFragment extends BaseFragment implements HistoryItemView
         if (adapter != null) {
             adapter.setHistories(new ArrayList<>());
         }
-        presenter.getHistories(offset, LIMIT, isFavourite);
+        if (searchEditText.getText().toString().isEmpty()) {
+            presenter.getHistories(offset, LIMIT, isFavourite);
+        } else {
+            presenter.search(searchEditText.getText().toString(), isFavourite);
+        }
     }
 
     private void changeSearchLayout(boolean isActive) {
