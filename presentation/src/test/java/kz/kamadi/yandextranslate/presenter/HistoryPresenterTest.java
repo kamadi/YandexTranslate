@@ -8,7 +8,6 @@ import org.mockito.MockitoAnnotations;
 import kz.kamadi.yandextranslate.domain.interactor.history.DeleteAllHistoryUseCase;
 import kz.kamadi.yandextranslate.ui.history.HistoryView;
 
-import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
@@ -35,7 +34,7 @@ public class HistoryPresenterTest {
 
         this.historyPresenter.destroy();
 
-        assertFalse(this.deleteAllHistoryUseCase.isUnsubscribed());
+        verify(this.deleteAllHistoryUseCase).unsubscribe();
 
     }
 

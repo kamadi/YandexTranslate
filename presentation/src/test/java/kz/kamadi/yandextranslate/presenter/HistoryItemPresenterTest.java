@@ -17,7 +17,6 @@ import kz.kamadi.yandextranslate.domain.interactor.history.SearchHistoriesUseCas
 import kz.kamadi.yandextranslate.domain.interactor.history.UpdateHistoryUseCase;
 import kz.kamadi.yandextranslate.ui.history.HistoryItemView;
 
-import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.never;
@@ -84,17 +83,6 @@ public class HistoryItemPresenterTest {
 
         verify(this.updateHistoryUseCase).execute(any(HistoryItemPresenter.HistoryDeleteSubscriber.class));
 
-    }
-
-    @Test
-    public void testDestroy() {
-
-        this.presenter.destroy();
-
-        assertFalse(this.getHistoriesUseCase.isUnsubscribed());
-        assertFalse(this.updateHistoryUseCase.isUnsubscribed());
-        assertFalse(this.searchHistoriesUseCase.isUnsubscribed());
-        assertFalse(this.deleteHistoryUseCase.isUnsubscribed());
     }
 
     @Test
