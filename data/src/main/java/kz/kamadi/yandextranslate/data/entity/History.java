@@ -16,6 +16,11 @@ public class History implements Parcelable {
     public History() {
     }
 
+    public History(Integer id, String text) {
+        this.id = id;
+        this.text = text;
+    }
+
     protected History(Parcel in) {
         text = in.readString();
         isFavourite = in.readByte() != 0;
