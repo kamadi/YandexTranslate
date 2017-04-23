@@ -2,10 +2,12 @@ package kz.kamadi.yandextranslate.presenter;
 
 import javax.inject.Inject;
 
+import kz.kamadi.yandextranslate.dependency.ActivityScope;
 import kz.kamadi.yandextranslate.domain.interactor.history.DeleteAllHistoryUseCase;
 import kz.kamadi.yandextranslate.ui.base.BaseView;
 import kz.kamadi.yandextranslate.ui.history.HistoryView;
 
+@ActivityScope
 public class HistoryPresenter extends BasePresenter {
 
     HistoryView view;

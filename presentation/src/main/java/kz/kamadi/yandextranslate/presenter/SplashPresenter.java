@@ -4,12 +4,14 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import kz.kamadi.yandextranslate.dependency.ActivityScope;
 import kz.kamadi.yandextranslate.domain.entity.LanguageEntity;
 import kz.kamadi.yandextranslate.domain.interactor.language.CreateLanguagesUseCase;
 import kz.kamadi.yandextranslate.domain.interactor.language.DownloadLanguagesUseCase;
 import kz.kamadi.yandextranslate.ui.base.BaseView;
 import kz.kamadi.yandextranslate.ui.splash.SplashView;
 
+@ActivityScope
 public class SplashPresenter extends BasePresenter {
 
     SplashView view;

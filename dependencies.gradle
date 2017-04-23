@@ -38,7 +38,7 @@ ext {
     //Testing
     jUnitVersion = '4.10'
     mockitoVersion = '2.7.21'
-    dexmakerVersion = '1.4'
+    dexmakerVersion = '2.2.0'
     mockWebServerVersion = '3.2.0'
     commonsIOVersion = '2.4'
     jetAnnotationVersion = '15.0'
@@ -94,10 +94,7 @@ ext {
     presentationTestDependencies = [
             junit:              "junit:junit:${jUnitVersion}",
             mockito:            "org.mockito:mockito-core:${mockitoVersion}",
-            dexmaker:           "com.crittercism.dexmaker:dexmaker:${dexmakerVersion}",
-            dexmakerDx:         "com.crittercism.dexmaker:dexmaker-dx:${dexmakerVersion}",
-            dexmakerParent:     "com.crittercism.dexmaker:dexmaker-parent:${dexmakerVersion}",
-            dexmakerMockito:    "com.crittercism.dexmaker:dexmaker-mockito:${dexmakerVersion}",
+            dexmaker:           "com.linkedin.dexmaker:dexmaker-mockito:${dexmakerVersion}",
             androidAnnotations: "com.android.support:support-annotations:${androidSupportVersion}",
             espresso:           "com.android.support.test.espresso:espresso-core:${espressoVersion}",
             espressoIntents:    "com.android.support.test.espresso:espresso-intents:${espressoVersion}",

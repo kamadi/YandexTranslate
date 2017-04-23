@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import kz.kamadi.yandextranslate.data.entity.History;
 import kz.kamadi.yandextranslate.data.entity.mapper.data.HistoryDataMapper;
 import kz.kamadi.yandextranslate.data.entity.mapper.entity.HistoryEntityMapper;
+import kz.kamadi.yandextranslate.dependency.ActivityScope;
 import kz.kamadi.yandextranslate.domain.entity.HistoryEntity;
 import kz.kamadi.yandextranslate.domain.interactor.history.DeleteHistoryUseCase;
 import kz.kamadi.yandextranslate.domain.interactor.history.GetHistoriesUseCase;
@@ -16,6 +17,7 @@ import kz.kamadi.yandextranslate.domain.interactor.history.UpdateHistoryUseCase;
 import kz.kamadi.yandextranslate.ui.base.BaseView;
 import kz.kamadi.yandextranslate.ui.history.HistoryItemView;
 
+@ActivityScope
 public class HistoryItemPresenter extends BasePresenter {
 
     HistoryItemView view;

@@ -12,7 +12,7 @@ android {
         targetSdkVersion rootProject.ext.androidTargetSdkVersion
         versionCode rootProject.ext.appVersionCode
         versionName rootProject.ext.appVersionName
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "kz.kamadi.yandextranslate.TestMockerRunner"
     }
     compileOptions {
         incremental false
@@ -76,9 +76,6 @@ dependencies {
     androidTestCompile presentationTestDependencies.androidAnnotations
     androidTestCompile presentationTestDependencies.mockito
     androidTestCompile presentationTestDependencies.dexmaker
-    androidTestCompile presentationTestDependencies.dexmakerDx
-    androidTestCompile presentationTestDependencies.dexmakerParent
-    androidTestCompile presentationTestDependencies.dexmakerMockito
     androidTestCompile presentationTestDependencies.espresso
     androidTestCompile presentationTestDependencies.espressoIntents
     androidTestCompile presentationTestDependencies.espressoWeb
