@@ -14,6 +14,7 @@
     <string name="connection_error">Connection error</string>
     <string name="connection_error_message">Please check your internet connection and try again.</string>
     <string name="retry">Retry</string>
+    <string name="about_app">About app</string>
     <string-array name="history_tabs">
         <item>History</item>
         <item>Favourites</item>
@@ -22,4 +23,16 @@
         <item>Are you sure you want to clear your history?</item>
         <item>Are you sure you want to delete your Favourites?</item>
     </string-array>
+    <string name="about_app_body">
+        <![CDATA[
+                <div>
+                  <h1>Description</h1>
+                  <p>This application created for <a href="https://yandex.ru/mobilization/">Yandex Mobilization 2017</a</p>
+                    <p>&nbsp;</p>
+                    <h1>Author</h1>
+                  <p>Seitzhanov Madiyar</p>
+                    <p>Email:<a href="mailto:kamadi.dev@gmail.com">kamadi.dev@gmail.com</a>
+                </div>
+            ]]>
+    </string>
 </resources>

@@ -22,4 +22,17 @@
         <item>Вы уверены, что хотите очистить историю?</item>
         <item>Вы уверены, что хотите очистить избранное?</item>
     </string-array>
+    <string name="about_app">О приложении</string>
+    <string name="about_app_body">
+        <![CDATA[
+                <div>
+                  <h1>Описания</h1>
+                  <p>Это приложения создано для <a href="https://yandex.ru/mobilization/">Yandex Mobilization 2017</a</p>
+                    <p>&nbsp;</p>
+                    <h1>Автор</h1>
+                  <p>Сейтжанов Мадияр</p>
+                    <p>Email:<a href="mailto:kamadi.dev@gmail.com">kamadi.dev@gmail.com</a>
+                </div>
+            ]]>
+    </string>
 </resources>

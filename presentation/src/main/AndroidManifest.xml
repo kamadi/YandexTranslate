@@ -30,6 +30,7 @@
         <activity
             android:name=".ui.translate.TranslationActivity"
             android:theme="@style/AppTheme.Fullscreen" />
+        <activity android:name=".ui.settings.AboutActivity"/>
     </application>
 
 </manifest>
