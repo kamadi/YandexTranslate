@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">YandexTranslate</string>
+    <string name="app_name">Yandex Translate</string>
     <string name="settings">Settings</string>
     <string name="search_history">Search in History</string>
     <string name="search_favourites">Search in Favourites</string>

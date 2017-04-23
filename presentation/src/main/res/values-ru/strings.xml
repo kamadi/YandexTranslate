@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">Яндекс.Переводчик</string>
+    <string name="settings">Настройки</string>
+    <string name="search_history">Найти в истории</string>
+    <string name="search_favourites">Найти в избранном</string>
+    <string name="deleting">Удаление</string>
+    <string name="deleting_message">Вы уверены, что хотите удалить этот запись?</string>
+    <string name="language_download_error">Не удалось скачать список языков.\n Проверьте подключения к интернету</string>
+    <string name="source_language">Язык текста</string>
+    <string name="target_language">Язык перевода</string>
+    <string name="history_error_message">Нет переводов в истории</string>
+    <string name="favourites_error_message">Нет переводов в избранном</string>
+    <string name="search_not_found_message">Ничего найдено</string>
+    <string name="connection_error">Ошибка соединения</string>
+    <string name="connection_error_message">Проверьте подключения к Интернету и повторите попытку.</string>
+    <string name="retry">Повторить</string>
+    <string-array name="history_tabs">
+        <item>История</item>
+        <item>Избранное</item>
+    </string-array>
+    <string-array name="history_delete_message">
+        <item>Вы уверены, что хотите очистить историю?</item>
+        <item>Вы уверены, что хотите очистить избранное?</item>
+    </string-array>
+</resources>
