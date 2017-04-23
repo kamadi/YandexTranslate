@@ -24,7 +24,7 @@ import kz.kamadi.yandextranslate.data.entity.Language;
 import kz.kamadi.yandextranslate.data.manager.LanguageManager;
 import kz.kamadi.yandextranslate.presenter.LanguagePresenter;
 import kz.kamadi.yandextranslate.ui.base.BaseActivity;
-import kz.kamadi.yandextranslate.ui.helper.RecyclerViewItemClickListener;
+import kz.kamadi.yandextranslate.ui.listener.RecyclerViewItemClickListener;
 
 public class LanguageActivity extends BaseActivity implements LanguageView, RecyclerViewItemClickListener.OnItemClickListener {
 

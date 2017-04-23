@@ -1,4 +1,4 @@
-package kz.kamadi.yandextranslate.ui.helper;
+package kz.kamadi.yandextranslate.ui.listener;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
