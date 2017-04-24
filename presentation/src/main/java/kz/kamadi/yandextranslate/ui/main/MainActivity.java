@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
     public void onTabReselected(TabLayout.Tab tab) {
 
     }
-    
+
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 

@@ -46,6 +46,7 @@ public class SplashActivity extends BaseActivity implements SplashView {
             presenter.downloadLanguages();
         }else {
             MainActivity.start(this);
+            finish();
         }
     }
 
@@ -80,5 +81,6 @@ public class SplashActivity extends BaseActivity implements SplashView {
         languageManager.saveSourceLanguage(new Language("Английский", "en"));
         languageManager.saveTargetLanguage(new Language("Русский", "ru"));
         MainActivity.start(this);
+        finish();
     }
 }
