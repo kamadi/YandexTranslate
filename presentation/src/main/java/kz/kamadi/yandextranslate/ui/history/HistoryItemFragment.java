@@ -11,7 +11,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -45,7 +44,7 @@ import static android.content.Context.INPUT_METHOD_SERVICE;
 
 public class HistoryItemFragment extends BaseFragment implements HistoryItemView, OnPageVisibleListener, OnLoadMoreListener, HistoryAdapter.OnHistoryActionListener, TextWatcher, TranslateEditText.EditTextImeBackListener, View.OnTouchListener {
     private static final String FAVOURITE = "kz.kamadi.yandextranslate.ui.history.HistoryItemFragment.FAVOURITE";
-    private final int LIMIT = 7;
+    private final int LIMIT = 10;
     @BindView(R.id.container)
     RelativeLayout container;
     @BindView(R.id.recycler_view)
@@ -114,7 +113,6 @@ public class HistoryItemFragment extends BaseFragment implements HistoryItemView
         histories = new ArrayList<>();
         initSearchEditText();
         initRecyclerView();
-        Log.e("getHistories", "onViewCreated");
     }
 
     private void initRecyclerView() {
@@ -213,8 +211,6 @@ public class HistoryItemFragment extends BaseFragment implements HistoryItemView
 
     @Override
     public void onPageVisible() {
-//        presenter.attachView(this);
-        Log.e("getHistories", "onPageVisible");
         getHistories();
     }
 
@@ -270,7 +266,6 @@ public class HistoryItemFragment extends BaseFragment implements HistoryItemView
             presenter.search(s.toString(), isFavourite);
         } else if (isSearching) {
             scrollListener.setEnabled(true);
-            Log.e("getHistories", "onTextChanged");
             getHistories();
         }
     }
@@ -299,7 +294,6 @@ public class HistoryItemFragment extends BaseFragment implements HistoryItemView
     public void onClearButtonClick() {
         searchEditText.setText("");
         isSearching = true;
-        Log.e("getHistories", "onClearButtonClick");
         getHistories();
         if (!isKeyboardOpen) {
             handler.post(() -> {
